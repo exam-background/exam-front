@@ -1,0 +1,44 @@
+*{
+    padding: 0 auto;
+    margin: 0;
+}
+li{
+    list-style: none;
+}
+.yunLeft{
+    float: left;
+}
+.yunRight{
+    float: right;
+}
+.yunClear::after{
+    content: '';
+    display: block;
+    clear: both;
+}
+a{
+    text-decoration: none;
+    color: #999;
+}
+.right-10{
+    margin-right: 10px;;
+}
+html,body{
+    height: 100%;
+    overflow-y: hidden;
+    overflow-X: hidden;
+}
+.height_100{
+    height: 100%;
+}
+.el-pagination{
+    text-align: center;    
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 2px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #a1a3a9;
+  border-radius: 3px;
+}
