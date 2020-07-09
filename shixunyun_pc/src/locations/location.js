@@ -14,6 +14,8 @@ var getAllTeacherNoPage = examsystemPath + '/getAllTeacherNoPage'
 var deleteSysUser = examsystemPath + '/deleteSysUser'
 // 新增用户
 var insertSysUser = examsystemPath + '/insertSysUser'
+// 修改用户
+var updateSysUser = examsystemPath + '/updateSysUser'
 // 查询用户
 var getSysUserByPage = examsystemPath + '/getSysUserByPage'
 
@@ -26,5 +28,6 @@ export default {
   deleteClass,
   deleteSysUser,
   insertSysUser,
+  updateSysUser,
   getSysUserByPage
 }

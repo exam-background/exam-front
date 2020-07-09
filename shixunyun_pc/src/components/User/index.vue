@@ -121,7 +121,7 @@
           移除
         </el-button>
         <el-button
-          @click.native.prevent="deleteRow(scope.row.id)"
+          @click.native.prevent="updateRow(scope.row)"
           type="text"
           size="small">
           修改
@@ -129,6 +129,50 @@
       </template>
     </el-table-column>
   </el-table>
+  <!-- 修改 -->
+  <el-dialog title="修改" :visible.sync="update" class="insert">
+    <el-form :model="updataData">
+      <el-form-item label="登录名称" :label-width="formLabelWidth">
+        <el-input v-model="updataData.login_name" autocomplete="off" style="width:217px" placeholder="请输入登录名称"></el-input>
+      </el-form-item>
+      <el-form-item label="登录密码" :label-width="formLabelWidth">
+        <el-input v-model="updataData.login_password" autocomplete="off" style="width:217px" placeholder="请输入登录密码"></el-input>
+      </el-form-item>
+      <el-form-item label="部门" :label-width="formLabelWidth" style="width:80%">
+        <el-select v-model="updataData.department" placeholder="请选择部门">
+          <el-option label="java" value="java"></el-option>
+          <el-option label="前端" value="前端"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="职位" :label-width="formLabelWidth" style="width:80%">
+        <el-select v-model="updataData.position" placeholder="请选择职位">
+          <el-option label="超级管理员" value="root"></el-option>
+          <el-option label="管理员" value="admin"></el-option>
+          <el-option label="普通用户" value="user"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="真实名称" :label-width="formLabelWidth">
+        <el-input v-model="updataData.real_name" autocomplete="off" style="width:217px" placeholder="请输入真实名称"></el-input>
+      </el-form-item>
+      <el-form-item label="手机号码" :label-width="formLabelWidth">
+        <el-input v-model="updataData.mobile_phone" autocomplete="off" style="width:217px" placeholder="请输入手机号码"></el-input>
+      </el-form-item>
+      <el-form-item label="创建日期" :label-width="formLabelWidth">
+            <div class="block">
+              <el-date-picker
+                v-model="updataData.create_time"
+                type="datetime"
+                placeholder="选择日期时间">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+    </el-form>
+    <!-- 取消or保存 -->
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="update = false">取 消</el-button>
+      <el-button type="primary" @click="updateDataFun">修 改</el-button>
+    </div>
+  </el-dialog>
     <el-pagination
   background
 :page-size="pagesize"
@@ -159,6 +203,17 @@ export default {
         mobile_phone: '',
         real_name: ''
       },
+      updataData: {
+        id: '',
+        login_name: '',
+        login_password: '',
+        department: '',
+        position: '',
+        create_time: '',
+        mobile_phone: '',
+        real_name: ''
+      },
+      update: false,
       pagesize: 2,
       currentPage: 1,
       insert: false,
@@ -291,6 +346,48 @@ export default {
             console.log('插入成功---->' + response.data.msg)
           } else {
             console.log('插入失败---->' + response.data.msg)
+          }
+          this.getDate()
+        })
+        .catch(function (error) {
+          // 请求失败处理
+          console.log('查询请求处理失败')
+          console.log(error)
+        })
+    },
+    updateRow (data) {
+      console.log(data)
+      this.update = true
+      this.updataData.id = data.id
+      this.updataData.login_name = data.login_name
+      this.updataData.login_password = data.login_password
+      this.updataData.department = data.department
+      this.updataData.position = data.position
+      this.updataData.create_time = data.create_time
+      this.updataData.mobile_phone = data.mobile_phone
+      this.updataData.real_name = data.real_name
+    },
+    updateDataFun () {
+      this.update = false
+      const that = this
+      const data = this.$qs.stringify({
+        id: this.updataData.id,
+        login_name: this.updataData.login_name,
+        login_password: this.updataData.login_password,
+        real_name: this.updataData.real_name,
+        department: this.updataData.department,
+        position: this.updataData.position,
+        mobile_phone: this.updataData.mobile_phone,
+        create_time: this.updataData.create_time
+      })
+      console.log(data)
+      this.$axios
+        .post(this.$location.updateSysUser, data)
+        .then(response => {
+          if (response.data.status === 200) {
+            console.log('修改成功---->' + response.data.msg)
+          } else {
+            console.log('修改失败---->' + response.data.msg)
           }
           this.getDate()
         })
