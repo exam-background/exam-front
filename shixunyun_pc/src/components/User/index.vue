@@ -7,28 +7,35 @@
         <!-- 新增弹窗 -->
         <el-dialog title="新增" :visible.sync="insert" class="insert">
           <el-form :model="form">
-          <el-form-item label="用户名称" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off" style="width:217px"></el-input>
+          <el-form-item label="登录名称" :label-width="formLabelWidth">
+            <el-input v-model="insertDate.login_name" autocomplete="off" style="width:217px"></el-input>
+          </el-form-item>
+          <el-form-item label="登录密码" :label-width="formLabelWidth">
+            <el-input v-model="insertDate.login_password" autocomplete="off" style="width:217px"></el-input>
           </el-form-item>
           <el-form-item label="部门" :label-width="formLabelWidth" style="width:80%">
-            <el-select v-model="form.a" placeholder="请选择活动区域">
+            <el-select v-model="insertDate.department" placeholder="请选择活动区域">
               <el-option label="java" value="java"></el-option>
               <el-option label="前端" value="js"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="职位" :label-width="formLabelWidth" style="width:80%">
-            <el-select v-model="form.b" placeholder="请选择活动区域">
-              <el-option label="选择题" value="xuanze"></el-option>
-              <el-option label="填空题" value="tiankongti"></el-option>
+            <el-select v-model="insertDate.position" placeholder="请选择活动区域">
+              <el-option label="超级管理员" value="root"></el-option>
+              <el-option label="管理员" value="amin"></el-option>
+              <el-option label="普通用户" value="user"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="用户名称" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off" style="width:217px"></el-input>
+          <el-form-item label="真实名称" :label-width="formLabelWidth">
+            <el-input v-model="insertDate.real_name" autocomplete="off" style="width:217px"></el-input>
           </el-form-item>
           <el-form-item label="手机号码" :label-width="formLabelWidth">
+            <el-input v-model="insertDate.mobile_phone" autocomplete="off" style="width:217px"></el-input>
+          </el-form-item>
+          <el-form-item label="创建日期" :label-width="formLabelWidth">
             <div class="block">
               <el-date-picker
-                v-model="value1"
+                v-model="insertDate.create_time"
                 type="datetime"
                 placeholder="选择日期时间">
               </el-date-picker>
@@ -37,20 +44,20 @@
     </el-form>
           <!-- 取消or保存 -->
            <div slot="footer" class="dialog-footer">
-            <el-button @click="insertFrom = false">取 消</el-button>
-            <el-button type="primary" @click="insertFrom = false">保 存</el-button>
+            <el-button @click="insert = false">取 消</el-button>
+            <el-button type="primary" @click="insertFroms">保 存</el-button>
           </div>
         </el-dialog>
     </el-form-item>
     <el-row class="inputRow">
         <el-col :span="5">
             <el-form-item label="部门">
-            <el-input v-model="form.name" placeholder="请输入内容"></el-input>
+            <el-input v-model="form.department" placeholder="请输入内容"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="5">
             <el-form-item label="职位">
-            <el-select v-model="form.region" placeholder="请选择">
+            <el-select v-model="form.position" placeholder="请选择">
                 <el-option label="超级管理员" value="root"></el-option>
                 <el-option label="管理员" value="admin"></el-option>
                 <el-option label="普通用户" value="user"></el-option>
@@ -59,7 +66,7 @@
         </el-col>
         <el-col :span="13" >
             <el-form-item  style="text-align:right;">
-                <el-button type="primary">查询</el-button>
+                <el-button type="primary" @click="selData">查询</el-button>
             </el-form-item>
         </el-col>
     </el-row>
@@ -83,23 +90,23 @@
       label="用户编号">
     </el-table-column>
     <el-table-column
-      prop="name"
+      prop="real_name"
       label="用户名称">
     </el-table-column>
     <el-table-column
-      prop="bumen"
+      prop="department"
       label="部门">
     </el-table-column>
     <el-table-column
-      prop="quanxian"
+      prop="position"
       label="职位">
     </el-table-column>
     <el-table-column
-      prop="phone"
+      prop="mobile_phone"
       label="手机号码">
     </el-table-column>
     <el-table-column
-      prop="datetime"
+      prop="create_time"
       label="创建时间">
     </el-table-column>
     <el-table-column
@@ -108,13 +115,13 @@
       width="120">
       <template slot-scope="scope">
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
+          @click.native.prevent="deleteRow(scope.row.id)"
           type="text"
           size="small">
           移除
         </el-button>
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
+          @click.native.prevent="deleteRow(scope.row.id)"
           type="text"
           size="small">
           修改
@@ -138,105 +145,27 @@ export default {
   name: 'User',
   data () {
     return {
-      tableData: [
-        {
-          id: '0',
-          name: '小刘',
-          quanxian: 'root',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '1',
-          name: '小郭',
-          quanxian: 'admin',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '2',
-          name: '小陈',
-          quanxian: 'user',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '1',
-          name: '小郭',
-          quanxian: 'admin',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '2',
-          name: '小陈',
-          quanxian: 'user',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '1',
-          name: '小郭',
-          quanxian: 'admin',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '2',
-          name: '小陈',
-          quanxian: 'user',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '1',
-          name: '小郭',
-          quanxian: 'admin',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '2',
-          name: '小陈',
-          quanxian: 'user',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '1',
-          name: '小郭',
-          quanxian: 'admin',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '2',
-          name: '小陈',
-          quanxian: 'user',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        }
-      ],
+      tableData: [],
       form: {
-        name: '',
-        region: ''
+        department: '',
+        position: ''
       },
-      pagesize: 10,
+      insertDate: {
+        login_name: '',
+        login_password: '',
+        department: '',
+        position: '',
+        create_time: '',
+        mobile_phone: '',
+        real_name: ''
+      },
+      pagesize: 2,
       currentPage: 1,
       insert: false,
       insertFrom: false,
-      formLabelWidth: '120px'
+      formLabelWidth: '120px',
+      department: '',
+      position: ''
     }
   },
   methods: {
@@ -258,7 +187,122 @@ export default {
     },
     handleSelectionChange (val) {
       console.log(val)
+    },
+    getDate () {
+      var that = this
+      console.log('当前页数：' + that.currentPage + ';显示行数：' + that.pagesize + ';部门：' + that.department + ';职位：' + that.position)
+      this.$axios
+        .post(this.$location.getSysUserByPage, this.$qs.stringify(
+          {
+            department: that.department,
+            position: that.position
+          }
+        ))
+        .then(response => {
+          console.log('初始化结果---->' + JSON.stringify(response.data.data))
+          that.tableData = response.data.data
+        })
+        .catch(function (error) {
+          // 请求失败处理
+          console.log('初始化数据请求处理失败')
+          console.log(error)
+        })
+    },
+    selData () {
+      var that = this
+      that.currentPage = 1
+      console.log('当前页数：' + that.currentPage + ';显示行数：' + that.pagesize + ';部门：' + this.form.department + ';职位：' + this.form.position)
+      this.$axios
+        .post(this.$location.getSysUserByPage, this.$qs.stringify(
+          {
+            department: this.form.department,
+            position: this.form.position
+          }
+        ))
+        .then(response => {
+          console.log('查询结果---->' + JSON.stringify(response.data.data))
+          that.tableData = response.data.data
+        })
+        .catch(function (error) {
+          // 请求失败处理
+          console.log('查询请求处理失败')
+          console.log(error)
+        })
+    },
+    deleteRow (id) {
+      console.log('id:' + id)
+      const that = this
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.$axios
+            .post(this.$location.deleteSysUser, this.$qs.stringify(
+              {
+                id: id
+              }
+            ))
+            .then(response => {
+              console.log(response.data)
+              if (response.data.status === 200) {
+                that.$message({
+                  type: 'success',
+                  message: response.data.msg
+                })
+              } else {
+                that.$message({
+                  type: 'info',
+                  message: response.data.msg
+                })
+              }
+              that.selData()
+            })
+            .catch(function (error) {
+              // 请求失败处理
+              console.log(error)
+            })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+    },
+    insertFroms () {
+      this.insert = false
+      const that = this
+      const data = this.$qs.stringify({
+        login_name: this.insertDate.login_name,
+        login_password: this.insertDate.login_password,
+        real_name: this.insertDate.real_name,
+        department: this.insertDate.department,
+        position: this.insertDate.position,
+        mobile_phone: this.insertDate.mobile_phone,
+        create_time: this.insertDate.create_time
+      })
+      console.log('data:' + data)
+      this.$axios
+        .post(this.$location.insertSysUser, data)
+        .then(response => {
+          if (response.data.status === 200) {
+            console.log('插入成功---->' + response.data.msg)
+          } else {
+            console.log('插入失败---->' + response.data.msg)
+          }
+          this.getDate()
+        })
+        .catch(function (error) {
+          // 请求失败处理
+          console.log('查询请求处理失败')
+          console.log(error)
+        })
     }
+  },
+  mounted () {
+    this.getDate()
   }
 }
 </script>
