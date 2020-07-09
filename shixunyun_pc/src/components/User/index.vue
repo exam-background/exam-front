@@ -3,7 +3,7 @@
     <el-form ref="form" :model="form" label-width="80px">
     <el-form-item>
         <el-button type="primary" size="small" icon="el-icon-plus" @click="insert=true">新增</el-button>
-        <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button>
+        <el-button type="danger" size="small" icon="el-icon-delete" @click="deleteUser">删除</el-button>
         <!-- 新增弹窗 -->
         <el-dialog title="新增" :visible.sync="insert" class="insert">
           <el-form :model="form">
@@ -214,13 +214,14 @@ export default {
         real_name: ''
       },
       update: false,
-      pagesize: 2,
+      pagesize: 10,
       currentPage: 1,
       insert: false,
       insertFrom: false,
       formLabelWidth: '120px',
       department: '',
-      position: ''
+      position: '',
+      deleteUsers: ''
     }
   },
   methods: {
@@ -241,7 +242,8 @@ export default {
       console.log(this.currentPage) // 点击第几页
     },
     handleSelectionChange (val) {
-      console.log(val)
+      console.log(JSON.stringify(val))
+      this.deleteUsers = val
     },
     getDate () {
       var that = this
@@ -396,6 +398,41 @@ export default {
           console.log('查询请求处理失败')
           console.log(error)
         })
+    },
+    deleteUser () {
+      console.log('即将删除总长度为：' + this.deleteUsers.length + '的数据：' + JSON.stringify(this.deleteUsers))
+      if (this.deleteUsers.length === 0) {
+        this.$message({
+          type: 'info',
+          message: '至少选择一个需要删除的用户'
+        })
+      } else {
+        var that = this
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+          .then(() => {
+            this.$axios
+              .post(this.$location.deleteSysUsers, this.deleteUsers)
+              .then(response => {
+                console.log('操作结果---->' + response.data.msg)
+                this.selData()
+              })
+              .catch(function (error) {
+                // 请求失败处理
+                console.log('初始化数据请求处理失败')
+                console.log(error)
+              })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            })
+          })
+      }
     }
   },
   mounted () {
