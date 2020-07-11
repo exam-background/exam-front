@@ -330,7 +330,6 @@ export default {
     },
     insertFroms () {
       this.insert = false
-      const that = this
       const data = this.$qs.stringify({
         login_name: this.insertDate.login_name,
         login_password: this.insertDate.login_password,

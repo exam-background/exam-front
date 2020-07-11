@@ -20,6 +20,22 @@ var insertSysUser = examsystemPath + '/insertSysUser'
 var updateSysUser = examsystemPath + '/updateSysUser'
 // 查询用户
 var getSysUserByPage = examsystemPath + '/getSysUserByPage'
+// 查询每日一练
+var getTechnologyDayExercise = examsystemPath + '/getTechnologyDayExercise'
+// 查询所有专业分类
+var getProfessionalNoPage = examsystemPath + '/getProfessionalNoPage'
+// 查询所有科目
+var getAllCourse = examsystemPath + '/getAllCourse'
+// 查询字典表信息
+var getDictionaryBytype = examsystemPath + '/getDictionaryBytype'
+// 增加每日一练
+var insertTechnologyDayExercise = examsystemPath + '/insertTechnologyDayExercise'
+// 修改每日一练
+var updateTechnologyDayExercise = examsystemPath + '/updateTechnologyDayExercise'
+// 删除每日一练
+var deleteTechnologyDayExercise = examsystemPath + '/deleteTechnologyDayExercise'
+// 批量删除每日一练
+var deleteTechnologyDayExercises = examsystemPath + '/deleteTechnologyDayExercises'
 
 export default {
   examsystemPath,
@@ -32,5 +48,13 @@ export default {
   deleteSysUsers,
   insertSysUser,
   updateSysUser,
-  getSysUserByPage
+  getSysUserByPage,
+  getTechnologyDayExercise,
+  getProfessionalNoPage,
+  getAllCourse,
+  getDictionaryBytype,
+  insertTechnologyDayExercise,
+  updateTechnologyDayExercise,
+  deleteTechnologyDayExercise,
+  deleteTechnologyDayExercises
 }
