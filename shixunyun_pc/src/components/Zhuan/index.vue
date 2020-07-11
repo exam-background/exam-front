@@ -121,7 +121,7 @@ export default {
       })
         .then(() => {
           this.$axios
-            .get('http://192.168.43.108:8081/examsystem/deleteProfessional', {
+            .get(this.$location.deleteProfessional, {
               params: {
                 id: id
               }
@@ -164,7 +164,7 @@ export default {
       const that = this
       const data = this.$qs.stringify({ professionalName: this.form.name })
       this.$axios
-        .post('http://192.168.43.108:8081/examsystem/addProfessional', data)
+        .post(this.$location.addProfessional, data)
         .then(response => {
           console.log(response.status)
           if (response.status === 200) {
@@ -185,7 +185,7 @@ export default {
       const that = this
       const data = this.$qs.stringify({ id: that.updId, professionalName: that.updateForm.name })
       this.$axios
-        .post('http://192.168.43.108:8081/examsystem/updateProfessional', data)
+        .post(this.$location.updateProfessional, data)
         .then(response => {
           console.log(response)
           if (response.status === 200) {
@@ -202,14 +202,17 @@ export default {
         })
       this.selAxios()
     },
-    toggle () {
+    toggle () {//查询
       this.$axios
-        .get('http://192.168.43.108:8081/examsystem/professionalForPage', {
+        .get(this.location.professionalForPage, {
           params: {
-            pname: this.Pname
+            pname: this.Pname,
+            pageSize:this.pagesize,
+            currentPage:this.currentPage
           }
         })
         .then(response => {
+
           this.tableData = response.data.data.data
           this.total = response.data.data.total
         })
@@ -220,17 +223,16 @@ export default {
         })
     },
     selAxios () {
-      var that = this
       this.$axios
-        .get('http://192.168.43.108:8081/examsystem/professionalForPage', {
+        .get(this.$location.professionalForPage, {
           params: {
             pagesize: this.pagesize,
             currentPage: this.currentPage
           }
         })
         .then(response => {
-          that.tableData = response.data.data.data
-          that.total = response.data.data.total
+          this.tableData = response.data.data.data
+          this.total = response.data.data.total
         })
         .catch(function (error) {
           // 请求失败处理

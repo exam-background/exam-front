@@ -1,23 +1,60 @@
 
 //考核
 
-var  examsystemPath = 'http://localhost:8081/examsystem'
+var examsystemPath = 'http://localhost:8081/examsystem'
+
+const location ={
 
 //班级管理
-var classForPage = examsystemPath + '/classForPage'
+ classForPage : examsystemPath + '/classForPage',
 
-var deleteClass=examsystemPath+'/deleteClass'
+ deleteClass : examsystemPath+'/deleteClass',
 
-var addClass=examsystemPath+'/addClass'
+ addClass : examsystemPath+'/addClass',
 
-var updateClass=examsystemPath+'/updateClass'
+ updateClass : examsystemPath+'/updateClass',
 
-var getAllTeacherNoPage=examsystemPath+'/getAllTeacherNoPage'
+ getAllTeacherNoPage : examsystemPath+'/getAllTeacherNoPage',
 
-export default {
-  examsystemPath,
-  classForPage,
-  addClass,
-  updateClass,
-  getAllTeacherNoPage
+ getAllClassNoPage : examsystemPath + '/getAllClassNoPage',
+
+//示范学习
+
+ getJobExampleStudyForPage : examsystemPath+'/jobExampleStudyForPage',
+
+ deleteJobExampleStudy : examsystemPath + '/deleteJobExampleStudy',
+
+ getJobExampleStudyById : examsystemPath + '/getJobExampleStudyById',
+
+ courseForPage : examsystemPath + '/courseForPage',
+
+ professionalForPage : examsystemPath + '/professionalForPage',
+
+ updateJobExampleStudy : examsystemPath + '/updateJobExampleStudy',
+
+ deleteJobExampleStudys : examsystemPath + '/deleteJobExampleStudys',
+
+ addJobExampleStudy : examsystemPath + '/addJobExampleStudy',
+
+ //学员
+
+ studentForPage : examsystemPath +'/studentForPage',
+
+ addStudent : examsystemPath + '/addStudent',
+
+ updateStudent : examsystemPath + '/updateStudent',
+
+//专业
+ getProfessionalNoPage : examsystemPath + '/getProfessionalNoPage',
+
+ deleteProfessional : examsystemPath + '/deleteProfessional',
+
+ addProfessional : examsystemPath + '/addProfessional',
+ 
+ updateProfessional : examsystemPath + '/updateProfessional'
+
+
+
 }
+
+export default location
