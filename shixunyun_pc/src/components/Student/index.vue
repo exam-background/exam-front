@@ -1,9 +1,9 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="80px">
+    <el-form label-width="80px">
       <el-form-item>
         <el-button type="primary" size="small" @click="insert=true">新增学员</el-button>
-        <!-- 新增弹窗 -->
+        <!-- 新增学员 -->
         <el-dialog title="新增" :visible.sync="insert" class="insert">
           <el-form :model="insertData">
             <el-form-item label="学生姓名" :label-width="formLabelWidth">
@@ -17,7 +17,7 @@
             <el-form-item label="班级" :label-width="formLabelWidth" style="width:80%">
               <el-select v-model="insertData.class" placeholder="请选择班级">
                 <el-option
-                v-for="(item, index) in banMsg"
+                v-for="(item, index) in classSelect"
                 :key="index"
                 :label="item.className"
                 :value="item.id"
@@ -25,9 +25,9 @@
               </el-select>
             </el-form-item>
             <el-form-item label="专业" :label-width="formLabelWidth" style="width:80%">
-              <el-select v-model="insertData.zhuan" placeholder="请选择专业">
+              <el-select v-model="insertData.professional" placeholder="请选择专业">
                 <el-option
-                v-for="(item, index) in zhuanMsg"
+                v-for="(item, index) in professionalSelect"
                 :key="index"
                 :label="item.professionalName"
                 :value="item.id"
@@ -42,17 +42,19 @@
           </div>
         </el-dialog>
       </el-form-item>
+
+      <!--查询学员-->
       <el-row>
-        <el-col :span="5">
+        <el-col :span="6" :offset="1">
           <el-form-item label="学员名称">
-            <el-input v-model="form.name" placeholder="请输入内容"></el-input>
+            <el-input v-model="searchForm.name" placeholder="请输入内容"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="6">
           <el-form-item label="班级">
-            <el-select v-model="form.ban" placeholder="请选择">
+            <el-select v-model="searchForm.class" placeholder="请选择" clearable="">
               <el-option
-                v-for="(item, index) in banMsg"
+                v-for="(item, index) in classSelect"
                 :key="index"
                 :label="item.className"
                 :value="item.id"
@@ -60,11 +62,11 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="6">
           <el-form-item label="专业">
-            <el-select v-model="form.zhuan" placeholder="请选择">
+            <el-select v-model="searchForm.professional" placeholder="请选择" clearable="">
               <el-option
-                v-for="(item, index) in zhuanMsg"
+                v-for="(item, index) in professionalSelect"
                 :key="index"
                 :label="item.professionalName"
                 :value="item.id"
@@ -72,14 +74,16 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="3">
           <el-form-item style="text-align:right;">
             <el-button type="primary" @click="selClick">查询</el-button>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
-    <!-- 数据 -->
+
+
+    <!-- 表格数据 -->
     <div class="main">
       <el-table
         :data="tableData"
@@ -113,6 +117,16 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        background
+        :page-size="pagesize"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        layout="total, prev, pager, next"
+        :total="total"
+      ></el-pagination>
+
       <!-- 修改 -->
         <el-dialog title="修改" :visible.sync="update" class="insert">
           <el-form :model="updData">
@@ -127,7 +141,7 @@
             <el-form-item label="班级" :label-width="formLabelWidth" style="width:80%">
               <el-select v-model="updData.class" placeholder="请选择班级">
                 <el-option
-                v-for="(item, index) in banMsg"
+                v-for="(item, index) in classSelect"
                 :key="index"
                 :label="item.className"
                 :value="item.id"
@@ -137,7 +151,7 @@
             <el-form-item label="专业" :label-width="formLabelWidth" style="width:80%">
               <el-select v-model="updData.zhuan" placeholder="请选择专业">
                 <el-option
-                v-for="(item, index) in zhuanMsg"
+                v-for="(item, index) in professionalSelect"
                 :key="index"
                 :label="item.professionalName"
                 :value="item.id"
@@ -152,15 +166,7 @@
           </div>
         </el-dialog>
     </div>
-    <el-pagination
-      background
-      :page-size="pagesize"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      layout="total, prev, pager, next"
-      :total="total"
-    ></el-pagination>
+
   </div>
 </template>
 <script>
@@ -168,13 +174,13 @@ export default {
   name: 'Student',
   data () {
     return {
-      form: {
+      searchForm: {
         name: '',
-        ban: '',
-        zhuan: ''
+        class: '',
+        professional: ''
       },
       tableData: [],
-      pagesize: 2,
+      pagesize: 5,
       currentPage: 1,
       total: 0,
       insert: false,
@@ -183,7 +189,7 @@ export default {
         name: '',
         openTime: '',
         class: '',
-        zhuan: ''
+        professional: ''
       },
       update: false,
       updData: {
@@ -192,10 +198,38 @@ export default {
         openTime: '',
         class: '',
         zhuan: ''
-      }
+      },
+      classSelect:[],
+      professionalSelect:[]
     }
   },
   methods: {
+    getClassAndProfessional(){
+      this.$axios
+        .get(this.$location.getAllClassNoPage)
+        .then(response => {
+          // console.log(JSON.stringify(response.data))
+          this.classSelect = response.data.data
+        })
+        .catch(function (error) {
+          // 请求失败处理
+          console.log('请求处理失败')
+          console.log(error)
+        }),
+        this.$axios
+          .get(this.$location.getProfessionalNoPage)
+          .then(response => {
+            console.log(JSON.stringify(response.data))
+            this.professionalSelect = response.data.data
+          })
+          .catch(function (error) {
+            // 请求失败处理
+            console.log('请求处理失败')
+            console.log(error)
+          })
+    },
+
+
     cellStyle ({ row, column, rowIndex, columnIndex }) {
       // 表格文字居中
       return 'text-align:center'
@@ -215,7 +249,7 @@ export default {
     selAxios () {
       var that = this
       this.$axios
-        .get('http://192.168.43.108:8081/examsystem/studentForPage', {
+        .get(this.$location.studentForPage, {
           params: {
             pageSize: that.pagesize,
             currentPage: that.currentPage
@@ -234,16 +268,17 @@ export default {
     selClick () {
       var that = this
       this.$axios
-        .get('http://192.168.43.108:8081/examsystem/studentForPage', {
+        .get(this.$location.studentForPage, {
           params: {
-            classId: that.form.ban,
-            professionalId: that.form.zhuan,
-            stuName: that.form.name,
+            classId: that.searchForm.class,
+            professionalId: that.searchForm.professional,
+            stuName: that.searchForm.name,
             pageSize: that.pagesize,
             currentPage: that.currentPage
           }
         })
         .then(response => {
+          // alert(response.data.data.total)
           that.tableData = response.data.data.data
           that.total = response.data.data.total
         })
@@ -254,11 +289,13 @@ export default {
         })
     },
     insertFun () {
+      alert(JSON.stringify(this.insertData))
       this.insert = false
-      this.$axios.post('http://192.168.43.108:8081/examsystem/addStudent', this.$qs.stringify({
+      this.$axios.post(this.$location.addStudent, this.$qs.stringify({
         stuName: this.insertData.name,
-        professionalId: this.insertData.zhuan,
-        classId: this.insertData.class
+        professionalId: this.insertData.professional,
+        classId: this.insertData.class,
+        openClassTime:this.insertData.openTime
       })).then(response => {
         if (response.status === 200) {
           this.$message('新增成功')
@@ -330,7 +367,7 @@ export default {
         professionalId: this.updData.zhuan,
         classId: this.updData.class
       })
-      this.$axios.post('http://192.168.43.108:8081/examsystem/updateStudent', data).then(res => {
+      this.$axios.post(this.$location.updateStudent, data).then(res => {
         console.log(this.updData)
         console.log(res)
         if (res.data.success === 'true') {
@@ -344,26 +381,7 @@ export default {
   },
   mounted () {
     this.selAxios()
-    this.$store.dispatch('getBan')
-    this.$store.dispatch('getZhuan')
-  },
-  computed: {
-    banMsg: function () {
-      // vuex 班级数据的获取
-      const ban = []
-      for (var i = 0; i < this.$store.state.ban.length; i++) {
-        ban.push({ id: this.$store.state.ban[i].id, className: this.$store.state.ban[i].className })
-      }
-      // 获取专业数据
-      return ban
-    },
-    zhuanMsg () {
-      const zhuan = []
-      for (var j = 0; j < this.$store.state.zhuan.length; j++) {
-        zhuan.push({ id: this.$store.state.zhuan[j].id, professionalName: this.$store.state.zhuan[j].professionalName })
-      }
-      return zhuan
-    }
+    this.getClassAndProfessional()
   },
   filters: {
     openTime (val, patten) {

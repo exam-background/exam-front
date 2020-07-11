@@ -5,6 +5,7 @@ import store from './store'
 // charts
 import VCharts from 'v-charts'
 import location from '@/locations/location'
+import commons from '@/locations/commons'
 // element ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -17,6 +18,7 @@ import qs from 'qs'
 import axios from 'axios'
 Vue.prototype.$qs = qs
 Vue.prototype.$location = location
+Vue.prototype.$commons = commons
 
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false

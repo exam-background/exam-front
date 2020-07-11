@@ -94,15 +94,15 @@
         <el-table-column fixed="right" label="操作" width="160">
           <template slot-scope="scope">
             <el-button
+              @click.native.prevent="updateRow(scope.row,scope.$index)"
+              type="warning"
+              size="small"
+            >修改</el-button>
+            <el-button
               @click.native.prevent="deleteRow(scope.row.id)"
                type="danger"
               size="small"
             >移除</el-button>
-            <el-button
-              @click.native.prevent="updateRow(scope.row,scope.$index)"
-              type="infor"
-              size="small"
-            >修改</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -202,18 +202,17 @@ export default {
   },
   methods: {
 
-    // getData(){
-    //   alert(1)
-    //   var that = this
-    //   this.$axios.get(this.$location.getAllTeacherNoPage,{
-    //     params: {
-    //       pageSize: that.pagesize,
-    //       currentPage: that.currentPage
-    //     }
-    //   }).then( response => {
-    //       console.log("结果------>"+JSON.stringify(response.data))
-    //   })
-    // },
+    getData(){
+      var that = this
+      this.$axios.get(this.$location.getJobExampleStudyForPage,{
+        params: {
+          pageSize: that.pagesize,
+          currentPage: that.currentPage
+        }
+      }).then( response => {
+          console.log("结果------>"+JSON.stringify(response.data))
+      })
+    },
 
 
     cellStyle ({ row, column, rowIndex, columnIndex }) {
@@ -256,7 +255,7 @@ export default {
     deleteRow (id) {
       // 删除代码
       const that = this
-      console.log('id:' + id)
+      alert('id:' + id)
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -424,7 +423,6 @@ export default {
   filters: {
     openTime (val, patten) {
       var dt = new Date(val)
-
       // yyyy-mm-dd
       var yy = dt.getFullYear()
       var mm = dt.getMonth() + 1
