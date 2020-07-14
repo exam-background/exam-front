@@ -1,41 +1,31 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="80px">
+    <el-form ref="form" label-width="80px">
     <el-form-item>
-        <el-button type="primary" size="small" icon="el-icon-plus" @click="insert=true">新增</el-button>
-        <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button>
+        <el-button type="primary" size="small" icon="el-icon-plus" @click="insert=true">新增权限</el-button>
+        <el-button type="primary" size="small" icon="el-icon-plus" @click="getPermissionMap">查看权限图</el-button>
+        <el-button type="danger" size="small" icon="el-icon-delete">删除权限</el-button>
+
+       <el-dialog title="新增权限" :visible.sync="insert" class="insert">
+             <el-form v-model="addForm">
+             <el-form-item label="权限名称" :label-width="formLabelWidth">
+               <el-button type="infor" size="small" icon="el-icon-plus" @click="addLevel1">新增一级权限</el-button>
+               <el-button type="infor" size="small" icon="el-icon-plus" @click="addLevel2">新增二级权限</el-button>
+               <el-button type="infor" size="small" icon="el-icon-plus" @click="addLevel3">新增三级权限</el-button>
+             </el-form-item>
+       </el-form>
+             <!-- 取消or保存 -->
+              <div slot="footer" class="dialog-footer">
+               <el-button @click="insertFrom = false">取 消</el-button>
+               <el-button type="primary" @click="insertFrom = false">保 存</el-button>
+             </div>
+           </el-dialog>
+
         <!-- 新增弹窗 -->
-        <el-dialog title="新增" :visible.sync="insert" class="insert">
-          <el-form :model="form">
-          <el-form-item label="班级名称" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off" style="width:217px"></el-input>
-          </el-form-item>
-          <el-form-item label="学期" :label-width="formLabelWidth" style="width:80%">
-            <el-select v-model="form.a" placeholder="请选择活动区域">
-              <el-option label="java" value="java"></el-option>
-              <el-option label="前端" value="js"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="班主任" :label-width="formLabelWidth" style="width:80%">
-            <el-select v-model="form.b" placeholder="请选择活动区域">
-              <el-option label="选择题" value="xuanze"></el-option>
-              <el-option label="填空题" value="tiankongti"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="教员" :label-width="formLabelWidth" style="width:80%">
-            <el-select v-model="form.b" placeholder="请选择活动区域">
-              <el-option label="选择题" value="xuanze"></el-option>
-              <el-option label="填空题" value="tiankongti"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="开班时间" :label-width="formLabelWidth">
-            <div class="block">
-              <el-date-picker
-                v-model="value1"
-                type="datetime"
-                placeholder="选择日期时间">
-              </el-date-picker>
-            </div>
+        <el-dialog title="新增权限" :visible.sync="insert" class="insert">
+          <el-form v-model="addForm">
+          <el-form-item label="权限名称" :label-width="formLabelWidth">
+            <el-input v-model="addForm.permissionName" autocomplete="off" placeholder="请输入权限名称" ></el-input>
           </el-form-item>
     </el-form>
           <!-- 取消or保存 -->
@@ -44,25 +34,30 @@
             <el-button type="primary" @click="insertFrom = false">保 存</el-button>
           </div>
         </el-dialog>
+
+        <el-dialog title="修改权限" :visible.sync="update" class="insert">
+              <el-form v-model="addForm">
+              <el-form-item label="权限名称" :label-width="formLabelWidth">
+                <el-input v-model="updateForm.permissionName" autocomplete="off" placeholder="请输入权限名称" ></el-input>
+              </el-form-item>
+        </el-form>
+              <!-- 取消or保存 -->
+               <div slot="footer" class="dialog-footer">
+                <el-button @click="insertFrom = false">取 消</el-button>
+                <el-button type="primary" @click="insertFrom = false">保 存</el-button>
+              </div>
+            </el-dialog>
     </el-form-item>
     <el-row class="inputRow">
-        <el-col :span="5">
-            <el-form-item label="部门">
-            <el-input v-model="form.name" placeholder="请输入内容"></el-input>
+        <el-col :span="7" :offset="10">
+            <el-form-item label="搜索权限名称" :label-width="formLabelWidth">
+              <el-input v-model="permissionName" placeholder="请输入权限名称"></el-input>
             </el-form-item>
         </el-col>
-        <el-col :span="5">
-            <el-form-item label="职位">
-            <el-select v-model="form.region" placeholder="请选择">
-                <el-option label="超级管理员" value="root"></el-option>
-                <el-option label="管理员" value="admin"></el-option>
-                <el-option label="普通用户" value="user"></el-option>
-            </el-select>
-            </el-form-item>
-        </el-col>
-        <el-col :span="13" >
+
+        <el-col :span="3" >
             <el-form-item  style="text-align:right;">
-                <el-button type="primary">查询</el-button>
+                <el-button type="primary" @click="searchPermission">查询</el-button>
             </el-form-item>
         </el-col>
     </el-row>
@@ -79,46 +74,31 @@
     @selection-change="handleSelectionChange">
     <el-table-column
       type="selection"
-      width="55">
+      width="120">
     </el-table-column>
     <el-table-column
       prop="id"
-      label="用户编号">
+      label="权限编号">
     </el-table-column>
     <el-table-column
-      prop="name"
-      label="用户名称">
+      prop="permissionName"
+      label="权限名称">
     </el-table-column>
-    <el-table-column
-      prop="bumen"
-      label="部门">
-    </el-table-column>
-    <el-table-column
-      prop="quanxian"
-      label="职位">
-    </el-table-column>
-    <el-table-column
-      prop="phone"
-      label="手机号码">
-    </el-table-column>
-    <el-table-column
-      prop="datetime"
-      label="创建时间">
-    </el-table-column>
+
     <el-table-column
       fixed="right"
       label="操作"
-      width="120">
+      width="200">
       <template slot-scope="scope">
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
-          type="text"
+          @click.native.prevent="deleteRow(scope.row.id)"
+          type="danger"
           size="small">
           移除
         </el-button>
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
-          type="text"
+          @click.native.prevent="updatePermission(scope.row.id)"
+          type="warning"
           size="small">
           修改
         </el-button>
@@ -141,108 +121,97 @@ export default {
   name: 'Quan',
   data () {
     return {
-      tableData: [
-        {
-          id: '0',
-          name: '小刘',
-          quanxian: 'root',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '1',
-          name: '小郭',
-          quanxian: 'admin',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '2',
-          name: '小陈',
-          quanxian: 'user',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '1',
-          name: '小郭',
-          quanxian: 'admin',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '2',
-          name: '小陈',
-          quanxian: 'user',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '1',
-          name: '小郭',
-          quanxian: 'admin',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '2',
-          name: '小陈',
-          quanxian: 'user',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '1',
-          name: '小郭',
-          quanxian: 'admin',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '2',
-          name: '小陈',
-          quanxian: 'user',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '1',
-          name: '小郭',
-          quanxian: 'admin',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        },
-        {
-          id: '2',
-          name: '小陈',
-          quanxian: 'user',
-          bumen: '学术部',
-          phone: '139...',
-          datetime: '2020-05-02'
-        }
-      ],
-      form: {
-        name: '',
-        region: ''
-      },
-      pagesize: 10,
+      tableData: [],
+      permissionName:'',
+      pagesize: 6,
       currentPage: 1,
+      addForm:{
+        permissionName:'',
+        level1:0,
+        level2:0,
+        level3:0
+      },
       insert: false,
+      update:false,
       insertFrom: false,
-      formLabelWidth: '120px'
+      formLabelWidth: '120px',
+      updateForm:{
+        id:0,
+        parentId:0,
+        permissionTag:'',
+        permissionName:'',
+        permissionUrl:'',
+      },
+      level1PermissionSelect:[]
     }
   },
   methods: {
+    addLevel2(){
+      
+    },
+    getPermissionMap(){
+      
+    },
+    updateAction(){
+
+    },
+    updatePermission(id){
+      this.update=true
+      this.$axios
+      .get(this.$location.getSysPermissionById+'/'+id)
+      .then(response =>{
+        // alert("返回的对象---->"+JSON.stringify(response.data))
+        this.updateForm.id = response.data.data.id
+        this.updateForm.parentId = response.data.data.parentId
+        this.updateForm.permissionTag = response.data.data.permissionTag
+        this.updateForm.permissionName = response.data.data.permissionName
+        this.updateForm.permissionUrl = response.data.data.permissionUrl
+      }).catch(function(error){
+        that.$message({
+          type: 'info',
+          message: '未知错误！'
+        })
+      })
+    },
+    deleteRow(id){
+
+    },
+    searchPermission(){
+      const data  = this.$qs.stringify({permissionName:this.permissionName})
+      this.$axios
+      .post(this.$location.getSysPermission,data,{headers:{'Content-Type':'application/x-www-form-urlencoded'}})
+      .then(response =>{
+        // alert("查询结果---->"+JSON.stringify(response.data.data))
+        if(response.data.status == 200){
+          this.tableData=response.data.data
+          this.total = response.data.data.length
+        }
+      }).catch(function(error){
+        this.$message({
+          type:'info',
+          message:'请求错误'
+        })
+        console.log(error)
+      })
+    },
+    getData:function(){
+      // let data = this.$qs.stringify(this.searchForm)
+      var that = this
+      this.$axios
+      .get(this.$location.getSysPermission)
+      .then( response => {
+          if(response.data.status == 200){
+            // console.log("结果------>"+JSON.stringify(response.data))
+            this.tableData=response.data.data
+             this.total = response.data.data.length
+          }
+      }).catch(function (error) {
+          // 请求失败处理
+          console.log('请求处理失败')
+          console.log(error)
+        })
+
+    },
     cellStyle ({ row, column, rowIndex, columnIndex }) {
     // 表格文字居中
       return 'text-align:center'
@@ -262,6 +231,9 @@ export default {
     handleSelectionChange (val) {
       console.log(val)
     }
+  },
+  mounted() {
+    this.getData()
   }
 }
 </script>

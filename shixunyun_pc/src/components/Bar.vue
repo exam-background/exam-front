@@ -436,13 +436,29 @@ export default {
             },
             {
               entity: {
+                id: 28,
+                parentMenuId: 9,
+                name: '角色管理',
+                icon: 'el-icon-user-solid',
+                alias: '角色管理',
+                state: 'ENABLE',
+                sort: 1,
+                value: '/Stu/Role',
+                type: 'LINK',
+                discription: '用于管理角色',
+                createUserId: 1
+              },
+              childs: null
+            },
+            {
+              entity: {
                 id: 26,
                 parentMenuId: 9,
                 name: '权限管理',
                 icon: 'el-icon-warning',
                 alias: '权限管理',
                 state: 'ENABLE',
-                sort: 1,
+                sort: 2,
                 value: '/Stu/Quan',
                 type: 'LINK',
                 discription: '用于文章管理的菜单',
@@ -458,7 +474,7 @@ export default {
                 icon: 'el-icon-collection',
                 alias: '数据字典',
                 state: 'ENABLE',
-                sort: 2,
+                sort: 3,
                 value: '/Stu/ZiDian',
                 type: 'LINK',
                 discription: '用于评论管理的菜单',

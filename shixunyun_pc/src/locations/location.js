@@ -50,8 +50,25 @@ const location ={
  deleteProfessional : examsystemPath + '/deleteProfessional',
 
  addProfessional : examsystemPath + '/addProfessional',
+
+ updateProfessional : examsystemPath + '/updateProfessional',
+
+ // 角色
+ getSysRoleList : examsystemPath + '/getSysRoleList',
+
+ addSysRole : examsystemPath + '/addSysRole',
+
+ getSysRoleById : examsystemPath + '/getSysRoleById',
+
+ updateSysRole : examsystemPath + '/updateSysRole',
+
+ deleteSysRole : examsystemPath + '/deleteSysRole',
+
+ //权限
+ getSysPermission : examsystemPath + '/getSysPermission',
  
- updateProfessional : examsystemPath + '/updateProfessional'
+ getSysPermissionById : examsystemPath + '/getSysPermissionById'
+
 
 
 

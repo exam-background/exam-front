@@ -103,6 +103,10 @@ const routes = [
       {
         path: 'ClassXunLian',
         component: () => import('../components/ClassXunLian')
+      },
+      {
+        path: 'Role',
+        component: () => import('../components/Role')
       }
     ]
   }
