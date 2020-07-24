@@ -465,6 +465,22 @@ export default {
                 createUserId: 1
               },
               childs: null
+            },
+            {
+              entity: {
+                id: 28,
+                parentMenuId: 9,
+                name: '录音测试',
+                icon: 'el-icon-collection',
+                alias: '录音测试',
+                state: 'ENABLE',
+                sort: 3,
+                value: '/Stu/voice',
+                type: 'LINK',
+                discription: '用于录制音频',
+                createUserId: 1
+              },
+              childs: null
             }
           ]
         }

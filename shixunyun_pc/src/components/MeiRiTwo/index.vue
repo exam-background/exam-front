@@ -23,16 +23,65 @@
               <el-input v-model="insertTechnologyDayExercise.setScore" placeholder="请输入内容" style="width:217px"></el-input>
             </el-form-item>
             <el-form-item label="题型" :label-width="formLabelWidth">
-              <el-select v-model="insertTechnologyDayExercise.types" placeholder="请选择">
+              <el-select v-model="insertTechnologyDayExercise.types" placeholder="请选择" @change="selRedio">
                 <el-option v-for="(dictionary, dictionaryindex) in dictionarys" :key="dictionaryindex" :label="dictionary.dictionaryName" :value="dictionary.id"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="答案" :label-width="formLabelWidth">
-              <ue v-model="insertTechnologyDayExercise.standardAnswer"></ue>
-            </el-form-item>
-            <el-form-item label="题目解析" :label-width="formLabelWidth">
-              <ue v-model="insertTechnologyDayExercise.analysis"></ue>
-            </el-form-item>
+            <div v-if="selectRedio != 2">
+              <el-form-item label="答案" :label-width="formLabelWidth">
+                <ue v-model="insertTechnologyDayExercise.standardAnswer"></ue>
+              </el-form-item>
+              <el-form-item label="题目解析" :label-width="formLabelWidth">
+                <ue v-model="insertTechnologyDayExercise.analysis"></ue>
+              </el-form-item>
+            </div>
+            <div v-else>
+              <el-form-item label="正确选项" :label-width="formLabelWidth">
+                <el-radio-group v-model="insertTechnologyDayExercise.radio">
+                  <el-radio :label="1" selected>A</el-radio>
+                  <el-radio :label="2">B</el-radio>
+                  <el-radio :label="3">C</el-radio>
+                  <el-radio :label="4">D</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item id="" label="添加按钮选项" :label-width="formLabelWidth">
+                <el-row>
+                  <el-col :span="4">
+                    <el-input placeholder="请输入选项" value="A" disabled/>
+                  </el-col>
+                  <el-col :span="16" :offset="1">
+                    <el-input placeholder="请输入内容" v-model="redioItem.contentA"/>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="4">
+                    <el-input placeholder="请输入选项" value="B" disabled/>
+                  </el-col>
+                  <el-col :span="16" :offset="1">
+                    <el-input placeholder="请输入内容" v-model="redioItem.contentB"/>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="4">
+                    <el-input placeholder="请输入选项" value="C" disabled/>
+                  </el-col>
+                  <el-col :span="16" :offset="1">
+                    <el-input placeholder="请输入内容" v-model="redioItem.contentC"/>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="4">
+                    <el-input placeholder="请输入选项" value="D" disabled/>
+                  </el-col>
+                  <el-col :span="16" :offset="1">
+                    <el-input placeholder="请输入内容" v-model="redioItem.contentD"/>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item label="题目解析" :label-width="formLabelWidth">
+                <ue v-model="insertTechnologyDayExercise.analysis"></ue>
+              </el-form-item>
+            </div>
           </el-form>
           <!-- 取消or保存 -->
           <div slot="footer" class="dialog-footer">
@@ -127,16 +176,65 @@
               <el-input v-model="updateTechnologyDayExercise.setScore" placeholder="请输入内容" style="width:217px"></el-input>
             </el-form-item>
             <el-form-item label="题型" :label-width="formLabelWidth">
-              <el-select v-model="updateTechnologyDayExercise.types" placeholder="请选择">
+              <el-select v-model="updateTechnologyDayExercise.types" placeholder="请选择" @change="upRedio">
                 <el-option v-for="(dictionary, dictionaryindex) in dictionarys" :key="dictionaryindex" :label="dictionary.dictionaryName" :value="dictionary.id"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="答案" :label-width="formLabelWidth">
-              <ue v-model="updateTechnologyDayExercise.standardAnswer"></ue>
-            </el-form-item>
-            <el-form-item label="题目解析" :label-width="formLabelWidth">
-              <ue v-model="updateTechnologyDayExercise.analysis"></ue>
-            </el-form-item>
+            <div v-if="updateRedio != 2">
+              <el-form-item label="答案" :label-width="formLabelWidth">
+                <ue v-model="updateTechnologyDayExercise.standardAnswer"></ue>
+              </el-form-item>
+              <el-form-item label="题目解析" :label-width="formLabelWidth">
+                <ue v-model="updateTechnologyDayExercise.analysis"></ue>
+              </el-form-item>
+            </div>
+            <div v-else>
+              <el-form-item label="正确选项" :label-width="formLabelWidth">
+                <el-radio-group v-model="updateTechnologyDayExercise.radio">
+                  <el-radio :label="1" selected>A</el-radio>
+                  <el-radio :label="2">B</el-radio>
+                  <el-radio :label="3">C</el-radio>
+                  <el-radio :label="4">D</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item id="" label="添加按钮选项" :label-width="formLabelWidth">
+                <el-row>
+                  <el-col :span="4">
+                    <el-input placeholder="请输入选项" value="A" disabled/>
+                  </el-col>
+                  <el-col :span="16" :offset="1">
+                    <el-input placeholder="请输入内容" v-model="updateredioItem.contentA"/>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="4">
+                    <el-input placeholder="请输入选项" value="B" disabled/>
+                  </el-col>
+                  <el-col :span="16" :offset="1">
+                    <el-input placeholder="请输入内容" v-model="updateredioItem.contentB"/>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="4">
+                    <el-input placeholder="请输入选项" value="C" disabled/>
+                  </el-col>
+                  <el-col :span="16" :offset="1">
+                    <el-input placeholder="请输入内容" v-model="updateredioItem.contentC"/>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="4">
+                    <el-input placeholder="请输入选项" value="D" disabled/>
+                  </el-col>
+                  <el-col :span="16" :offset="1">
+                    <el-input placeholder="请输入内容" v-model="updateredioItem.contentD"/>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item label="题目解析" :label-width="formLabelWidth">
+                <ue v-model="updateTechnologyDayExercise.analysis"></ue>
+              </el-form-item>
+            </div>
           </el-form>
           <!-- 取消or保存 -->
           <div slot="footer" class="dialog-footer">
@@ -199,6 +297,7 @@ export default {
         setScore: '',
         analysis: '',
         profesionalId: '',
+        radio: '',
         courseId: ''
       },
       updateTechnologyDayExercise: {
@@ -209,18 +308,37 @@ export default {
         setScore: '',
         analysis: '',
         profesionalId: '',
-        courseId: ''
+        courseId: '',
+        radio: ''
       },
       professionals: {
         id: '',
         professional_name: '',
         professional_desc: ''
       },
+      redioItem: {
+        contentA: '',
+        contentB: '',
+        contentC: '',
+        contentD: ''
+      },
+      updateredioItem: {
+        idA: '',
+        contentA: '',
+        idB: '',
+        contentB: '',
+        idC: '',
+        contentC: '',
+        idD: '',
+        contentD: ''
+      },
       pagesize: 10,
       currentPage: 1,
       insert: false,
       insertFrom: false,
       update: false,
+      selectRedio: '',
+      updateRedio: '',
       formLabelWidth: '120px',
       delTechnologyDayExercise: ''
     }
@@ -317,15 +435,19 @@ export default {
     },
     addTechnologyDayExercise () {
       this.insert = false
-      const data = this.$qs.stringify({
-        title: this.insertTechnologyDayExercise.title,
-        types: this.insertTechnologyDayExercise.types,
-        standardAnswer: this.insertTechnologyDayExercise.standardAnswer,
-        analysis: this.insertTechnologyDayExercise.analysis,
-        professionalId: this.insertTechnologyDayExercise.professionalId,
-        courseId: this.insertTechnologyDayExercise.courseId,
-        setScore: this.insertTechnologyDayExercise.setScore
-      })
+      const data = this.$qs.stringify(
+        {
+          title: this.insertTechnologyDayExercise.title,
+          types: this.insertTechnologyDayExercise.types,
+          standardAnswer: this.insertTechnologyDayExercise.standardAnswer,
+          analysis: this.insertTechnologyDayExercise.analysis,
+          professionalId: this.insertTechnologyDayExercise.professionalId,
+          courseId: this.insertTechnologyDayExercise.courseId,
+          setScore: this.insertTechnologyDayExercise.setScore,
+          radio: this.insertTechnologyDayExercise.radio,
+          redioItem: [this.redioItem.contentA, this.redioItem.contentB, this.redioItem.contentC, this.redioItem.contentD]
+        }
+      )
       console.log('data:' + data)
       this.$axios
         .post(this.$location.insertTechnologyDayExercise, data)
@@ -346,6 +468,7 @@ export default {
     updateRow (data) {
       console.log(JSON.stringify(data))
       this.update = true
+      this.updateRedio = data.types
       this.updateTechnologyDayExercise.id = parseInt(data.id)
       this.updateTechnologyDayExercise.title = data.title
       this.updateTechnologyDayExercise.types = parseInt(data.types)
@@ -354,19 +477,57 @@ export default {
       this.updateTechnologyDayExercise.professionalId = data.professional.id
       this.updateTechnologyDayExercise.courseId = data.course.id
       this.updateTechnologyDayExercise.setScore = data.setScore
+      for (let index = 0; index < data.exerciseItems.length; index++) {
+        const TechnologyDayExerciseItem = data.exerciseItems[index];
+        switch (TechnologyDayExerciseItem.orderNum) {
+          case 'A':
+            this.updateredioItem.contentA = TechnologyDayExerciseItem.content
+            this.updateredioItem.idA = TechnologyDayExerciseItem.id
+            if (TechnologyDayExerciseItem.content === data.standardAnswer) {
+              this.updateTechnologyDayExercise.radio = 1
+            }
+            break
+          case 'B':
+            this.updateredioItem.contentB = TechnologyDayExerciseItem.content
+            this.updateredioItem.idB = TechnologyDayExerciseItem.id
+            if (TechnologyDayExerciseItem.content === data.standardAnswer) {
+              this.updateTechnologyDayExercise.radio = 2
+            }
+            break
+          case 'C':
+            this.updateredioItem.contentC = TechnologyDayExerciseItem.content
+            this.updateredioItem.idC = TechnologyDayExerciseItem.id
+            if (TechnologyDayExerciseItem.content === data.standardAnswer) {
+              this.updateTechnologyDayExercise.radio = 3
+            }
+            break
+          case 'D':
+            this.updateredioItem.contentD = TechnologyDayExerciseItem.content
+            this.updateredioItem.idD = TechnologyDayExerciseItem.id
+            if (TechnologyDayExerciseItem.content === data.standardAnswer) {
+              this.updateTechnologyDayExercise.radio = 4
+            }
+            break
+        }
+      }
     },
     updateTechnologyDayExercises () {
       this.update = false
-      const data = this.$qs.stringify({
-        id: this.updateTechnologyDayExercise.id,
-        title: this.updateTechnologyDayExercise.title,
-        types: this.updateTechnologyDayExercise.types,
-        standardAnswer: this.updateTechnologyDayExercise.standardAnswer,
-        analysis: this.updateTechnologyDayExercise.analysis,
-        professionalId: this.updateTechnologyDayExercise.professionalId,
-        courseId: this.updateTechnologyDayExercise.courseId,
-        setScore: this.updateTechnologyDayExercise.setScore
-      })
+      const data = this.$qs.stringify(
+        {
+          id: this.updateTechnologyDayExercise.id,
+          title: this.updateTechnologyDayExercise.title,
+          types: this.updateTechnologyDayExercise.types,
+          standardAnswer: this.updateTechnologyDayExercise.standardAnswer,
+          analysis: this.updateTechnologyDayExercise.analysis,
+          professionalId: this.updateTechnologyDayExercise.professionalId,
+          courseId: this.updateTechnologyDayExercise.courseId,
+          setScore: this.updateTechnologyDayExercise.setScore,
+          radio: this.updateTechnologyDayExercise.radio,
+          redioItem: [this.updateredioItem.contentA, this.updateredioItem.contentB, this.updateredioItem.contentC, this.updateredioItem.contentD],
+          redioId: [this.updateredioItem.idA, this.updateredioItem.idB, this.updateredioItem.idC, this.updateredioItem.idD]
+        }
+      )
       console.log(data)
       this.$axios
         .post(this.$location.updateTechnologyDayExercise, data)
@@ -460,6 +621,12 @@ export default {
             })
           })
       }
+    },
+    selRedio (id) {
+      this.selectRedio = id
+    },
+    upRedio (id) {
+      this.updateRedio = id
     }
   },
   mounted () {

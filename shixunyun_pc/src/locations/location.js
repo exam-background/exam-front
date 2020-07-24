@@ -41,6 +41,19 @@ const location = {
   // 批量删除每日一练
   deleteTechnologyDayExercises: examsystemPath + '/deleteTechnologyDayExercises',
 
+  // 就业每日一练
+
+  // 删除就业每日一练
+  deleteJobDayExercies: examsystemPath + '/deleteJobDayExercise',
+  // 批量删除就业每日一练
+  deletesJobDayExercise: examsystemPath + '/deletesJobDayExercise',
+  // 增加就业每日一练
+  addJobDayExercise: examsystemPath + '/addJobDayExercise',
+  // 修改就业每日一练
+  updateJobDayExercise: examsystemPath + '/updateJobDayExercise',
+  // 查询就业每日一练
+  getAllJobDayExercise: examsystemPath + '/getAllJobDayExercise',
+
   // 示范学习
 
   getJobExampleStudyForPage: examsystemPath + '/jobExampleStudyForPage',
@@ -71,8 +84,10 @@ const location = {
 
   addProfessional: examsystemPath + '/addProfessional',
 
-  updateProfessional: examsystemPath + '/updateProfessional'
+  updateProfessional: examsystemPath + '/updateProfessional',
 
+  // 音频上传
+  uploadVoice: examsystemPath + '/uploadVoice'
 }
 
 export default location
