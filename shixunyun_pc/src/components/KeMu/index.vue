@@ -141,7 +141,7 @@ export default {
       this.selAxios()
     },
     selAxios () {
-      this.$axios.get('http://192.168.43.108:8081/examsystem/courseForPage', {
+      this.$axios.get(this.$location.courseForPage, {
         params: {
           pageSize: this.pagesize,
           currentPage: this.currentPage
@@ -163,7 +163,7 @@ export default {
       })
         .then(() => {
           this.$axios
-            .get('http://192.168.43.108:8081/examsystem/deleteCourse', {
+            .get(this.$location.deleteCourse, {
               params: {
                 id: id
               }
@@ -195,8 +195,9 @@ export default {
         })
     },
     insertFun () {
+      console.log(this.$location.addCourse)
       this.insertBool = false
-      this.$axios.post('http://192.168.43.108:8081/examsystem/addCourse', this.$qs.stringify({
+      this.$axios.post(this.$location.addCourse, this.$qs.stringify({
         professionalId: this.form.opt,
         courseName: this.form.name
       })).then(res => {
@@ -223,7 +224,7 @@ export default {
     },
     updateFun () {
       this.updateBool = false
-      this.$axios.post('http://192.168.43.108:8081/examsystem/updateCourse', this.$qs.stringify({
+      this.$axios.post(this.$location.updateCourse, this.$qs.stringify({
         id: this.updateData.id,
         professionalId: this.updateData.opt,
         courseName: this.updateData.name
@@ -245,7 +246,7 @@ export default {
   mounted () {
     this.selAxios()
     this.$axios
-      .get('http://192.168.43.108:8081/examsystem/getProfessionalNoPage', {
+      .get(this.$location.getProfessionalNoPage, {
         params: {
           positionName: '教员'
         }

@@ -175,7 +175,7 @@ export default {
     selAxios () {
       var that = this
       this.$axios
-        .get('http://192.168.43.108:8081/examsystem/teacherForPage', {
+        .get(this.$location.teacherForPage, {
           params: {
             pageSize: that.pagesize,
             currentPage: that.currentPage
@@ -193,7 +193,7 @@ export default {
         })
     },
     selClickFun () {
-      this.$axios.get('http://192.168.43.108:8081/examsystem/teacherForPage', {
+      this.$axios.get(this.$location.teacherForPage, {
         params: {
           pageSize: this.pagesize,
           currentPage: this.currentPage,
@@ -212,7 +212,7 @@ export default {
     },
     insertFun () {
       this.insert = false
-      this.$axios.post('http://192.168.43.108:8081/examsystem/addTeacher', this.$qs.stringify({
+      this.$axios.post(this.$location.addTeacher, this.$qs.stringify({
         teacherName: this.insertData.name,
         teacherPosition: this.insertData.zhiwu,
         professionalId: this.insertData.zhuan
@@ -232,7 +232,7 @@ export default {
       })
         .then(() => {
           this.$axios
-            .get('http://192.168.43.108:8081/examsystem/deleteTeacher', {
+            .get(this.$location.deleteTeacher, {
               params: {
                 id: id
               }
@@ -272,7 +272,7 @@ export default {
         teacherPosition: this.updataData.zhiwu,
         professionalId: this.updataData.zhuan
       })
-      this.$axios.post('http://192.168.43.108:8081/examsystem/updateTeacher', data).then(res => {
+      this.$axios.post(this.$location.updateTeacher, data).then(res => {
         console.log(this.updataData)
         this.$message(res.data.msg)
         this.selClickFun()
@@ -282,7 +282,7 @@ export default {
   mounted () {
     this.selAxios()
     this.$axios
-      .get('http://192.168.43.108:8081/examsystem/getProfessionalNoPage', {
+      .get(this.$location.getProfessionalNoPage, {
         params: {
           positionName: '教员'
         }

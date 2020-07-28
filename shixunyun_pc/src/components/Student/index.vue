@@ -320,7 +320,7 @@ export default {
       })
         .then(() => {
           this.$axios
-            .get('http://192.168.43.108:8081/examsystem/deleteStudent', {
+            .get(this.$location.deleteStudent, {
               params: {
                 id: id
               }
@@ -368,7 +368,7 @@ export default {
         classId: this.updData.class
       })
       this.$axios.post(this.$location.updateStudent, data).then(res => {
-        console.log(this.updData)
+        console.log(data)
         console.log(res)
         if (res.data.success === 'true') {
           this.$message('修改成功')

@@ -1,19 +1,31 @@
+//考核
+
 var examsystemPath = 'http://localhost:8081/examsystem'
 
-const location = {
+const location ={
 
-  // 班级管理
-  classForPage: examsystemPath + '/classForPage',
+//班级管理
+ classForPage : examsystemPath + '/classForPage',
 
-  deleteClass: examsystemPath + '/deleteClass',
+ deleteClass : examsystemPath+'/deleteClass',
 
-  addClass: examsystemPath + '/addClass',
+ addClass : examsystemPath+'/addClass',
 
-  updateClass: examsystemPath + '/updateClass',
+ updateClass : examsystemPath+'/updateClass',
 
-  getAllTeacherNoPage: examsystemPath + '/getAllTeacherNoPage',
+ deleteStudent : examsystemPath + '/deleteStudent',
 
-  getAllClassNoPage: examsystemPath + '/getAllClassNoPage',
+ teacherForPage : examsystemPath + '/teacherForPage',
+
+ addTeacher : examsystemPath + '/addTeacher',
+
+ deleteTeacher : examsystemPath + '/deleteTeacher',
+
+ updateTeacher : examsystemPath + '/updateTeacher',
+
+ getAllTeacherNoPage : examsystemPath+'/getAllTeacherNoPage',
+
+ getAllClassNoPage : examsystemPath + '/getAllClassNoPage',
   // 删除用户
   deleteSysUser: examsystemPath + '/deleteSysUser',
   // 批量删除用户
@@ -53,41 +65,65 @@ const location = {
   updateJobDayExercise: examsystemPath + '/updateJobDayExercise',
   // 查询就业每日一练
   getAllJobDayExercise: examsystemPath + '/getAllJobDayExercise',
+//示范学习
 
-  // 示范学习
+ getJobExampleStudyForPage : examsystemPath+'/jobExampleStudyForPage',
 
-  getJobExampleStudyForPage: examsystemPath + '/jobExampleStudyForPage',
+ deleteJobExampleStudy : examsystemPath + '/deleteJobExampleStudy',
 
-  deleteJobExampleStudy: examsystemPath + '/deleteJobExampleStudy',
+ getJobExampleStudyById : examsystemPath + '/getJobExampleStudyById',
 
-  getJobExampleStudyById: examsystemPath + '/getJobExampleStudyById',
+ courseForPage : examsystemPath + '/courseForPage',
 
-  courseForPage: examsystemPath + '/courseForPage',
+ deleteCourse : examsystemPath + '/deleteCourse',
 
-  professionalForPage: examsystemPath + '/professionalForPage',
+ addCourse : examsystemPath + '/addCourse',
 
-  updateJobExampleStudy: examsystemPath + '/updateJobExampleStudy',
+ updateCourse : examsystemPath + '/updateCourse',
 
-  deleteJobExampleStudys: examsystemPath + '/deleteJobExampleStudys',
+ professionalForPage : examsystemPath + '/professionalForPage',
 
-  addJobExampleStudy: examsystemPath + '/addJobExampleStudy',
+ updateJobExampleStudy : examsystemPath + '/updateJobExampleStudy',
 
-  // 学员
+ deleteJobExampleStudys : examsystemPath + '/deleteJobExampleStudys',
 
-  studentForPage: examsystemPath + '/studentForPage',
+ addJobExampleStudy : examsystemPath + '/addJobExampleStudy',
 
-  addStudent: examsystemPath + '/addStudent',
+ //学员
 
-  updateStudent: examsystemPath + '/updateStudent',
+ studentForPage : examsystemPath +'/studentForPage',
 
-  deleteProfessional: examsystemPath + '/deleteProfessional',
+ addStudent : examsystemPath + '/addStudent',
 
-  addProfessional: examsystemPath + '/addProfessional',
+ updateStudent : examsystemPath + '/updateStudent',
 
-  updateProfessional: examsystemPath + '/updateProfessional',
+//专业
+//  getProfessionalNoPage : examsystemPath + '/getProfessionalNoPage',
+
+ deleteProfessional : examsystemPath + '/deleteProfessional',
+
+ addProfessional : examsystemPath + '/addProfessional',
+
+ updateProfessional : examsystemPath + '/updateProfessional',
+
+ // 角色
+ getSysRoleList : examsystemPath + '/getSysRoleList',
+
+ addSysRole : examsystemPath + '/addSysRole',
+
+ getSysRoleById : examsystemPath + '/getSysRoleById',
+
+ updateSysRole : examsystemPath + '/updateSysRole',
+
+ deleteSysRole : examsystemPath + '/deleteSysRole',
+
+ //权限
+ getSysPermission : examsystemPath + '/getSysPermission',
+ 
+ getSysPermissionById : examsystemPath + '/getSysPermissionById',
 
   // 音频上传
-  uploadVoice: examsystemPath + '/uploadVoice'
+ uploadVoice: examsystemPath + '/uploadVoice'
 }
 
 export default location

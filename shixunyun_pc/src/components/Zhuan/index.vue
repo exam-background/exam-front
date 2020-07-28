@@ -203,12 +203,13 @@ export default {
       this.selAxios()
     },
     toggle () {//查询
+    console.log(this.Pname)
       this.$axios
-        .get(this.location.professionalForPage, {
+        .get(this.$location.professionalForPage, {
           params: {
             pname: this.Pname,
-            pageSize:this.pagesize,
-            currentPage:this.currentPage
+            pageSize: this.pagesize,
+            currentPage: this.currentPage
           }
         })
         .then(response => {

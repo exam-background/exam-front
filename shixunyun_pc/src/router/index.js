@@ -107,6 +107,10 @@ const routes = [
       {
         path: 'voice',
         component: () => import('../components/voice')
+      },
+      {
+        path: 'Role',
+        component: () => import('../components/Role')
       }
     ]
   }
