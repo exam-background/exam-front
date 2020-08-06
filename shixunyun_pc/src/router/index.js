@@ -111,6 +111,14 @@ const routes = [
       {
         path: 'Role',
         component: () => import('../components/Role')
+      },
+      {
+        path: 'Papers',
+        component: () => import('../components/Papers')
+      },
+      {
+        path: 'PapersTitle',
+        component: () => import('../components/PapersTitle')
       }
     ]
   }

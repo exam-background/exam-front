@@ -485,7 +485,7 @@ export default {
             {
               entity: {
                 id: 29,
-                parentMenuId: 10,
+                parentMenuId: 9,
                 name: '录音测试',
                 icon: 'el-icon-collection',
                 alias: '录音测试',
@@ -494,6 +494,55 @@ export default {
                 value: '/Stu/voice',
                 type: 'LINK',
                 discription: '用于录制音频',
+                createUserId: 1
+              },
+              childs: null
+            }
+          ]
+        },
+        {
+          entity: {
+            id: 30,
+            parentMenuId: 0,
+            name: 'shijuan',
+            icon: 'el-icon-document-checked',
+            alias: '考试管理',
+            state: 'ENABLE',
+            sort: 2,
+            value: null,
+            type: 'NONE',
+            discription: '用于管理试卷的菜单',
+            createUserId: 1
+          },
+          childs: [
+            {
+              entity: {
+                id: 31,
+                parentMenuId: 9,
+                name: '试卷管理',
+                icon: 'el-icon-s-order',
+                alias: '试卷管理',
+                state: 'ENABLE',
+                sort: 0,
+                value: '/Stu/Papers',
+                type: 'LINK',
+                discription: '用于管理试卷的菜单',
+                createUserId: 1
+              },
+              childs: null
+            },
+            {
+              entity: {
+                id: 32,
+                parentMenuId: 9,
+                name: '试卷题目管理',
+                icon: 'el-icon-s-order',
+                alias: '试卷题目管理',
+                state: 'ENABLE',
+                sort: 1,
+                value: '/Stu/PapersTitle',
+                type: 'LINK',
+                discription: '用于管理试卷题目的菜单',
                 createUserId: 1
               },
               childs: null

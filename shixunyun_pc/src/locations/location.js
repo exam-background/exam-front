@@ -42,6 +42,12 @@ const location ={
   getProfessionalNoPage: examsystemPath + '/getProfessionalNoPage',
   // 查询所有科目
   getAllCourse: examsystemPath + '/getAllCourse',
+  // 根据专业id查询科目
+  getCourseByProfessionalId: examsystemPath + '/getCourseByProfessionalId',
+  // 添加试卷
+  insertPapers: examsystemPath + '/insertPapers',
+  // 修改试卷
+  updatePapers: examsystemPath + '/updatePapers',
   // 查询字典表信息
   getDictionaryBytype: examsystemPath + '/getDictionaryBytype',
   // 增加每日一练
@@ -97,6 +103,8 @@ const location ={
 
  updateStudent : examsystemPath + '/updateStudent',
 
+ selectStudent : examsystemPath + '/selectStudent',
+
 //专业
 //  getProfessionalNoPage : examsystemPath + '/getProfessionalNoPage',
 
@@ -123,7 +131,18 @@ const location ={
  getSysPermissionById : examsystemPath + '/getSysPermissionById',
 
   // 音频上传
- uploadVoice: examsystemPath + '/uploadVoice'
+ uploadVoice: examsystemPath + '/uploadVoice',
+
+ // 加载试卷
+ getPapars: examsystemPath + '/getPapers',
+ // 批量删除试卷
+ delPapars: examsystemPath + '/delPapars',
+
+ //查看试卷题目
+ getPapersTitleByPapersId: examsystemPath + '/getPapersTitleByPapersId',
+
+ //发布试卷
+ publishPapers: examsystemPath + '/publishPapers'
 }
 
 export default location
