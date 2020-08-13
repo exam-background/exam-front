@@ -135,6 +135,8 @@ const location ={
 
  // 加载试卷
  getPapars: examsystemPath + '/getPapers',
+ // 加载所有已发布的试卷
+ getPapersAllPublish: examsystemPath + '/getPapersAllPublish',
  // 批量删除试卷
  delPapars: examsystemPath + '/delPapars',
 
@@ -142,7 +144,15 @@ const location ={
  getPapersTitleByPapersId: examsystemPath + '/getPapersTitleByPapersId',
 
  //发布试卷
- publishPapers: examsystemPath + '/publishPapers'
+ publishPapers: examsystemPath + '/publishPapers',
+
+ // 查询试卷考试用户的答题
+ getPapersUserByUserId: examsystemPath + '/getPapersUserByUserId',
+
+ // 根据试卷id查询考试学生
+ getPapersUserByPapersId: examsystemPath + '/getPapersUserByPapersId',
+ // 人工阅卷
+ updatePapersUserResult: examsystemPath + '/updatePapersUserResult'
 }
 
 export default location

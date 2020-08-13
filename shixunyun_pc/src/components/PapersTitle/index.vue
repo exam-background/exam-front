@@ -6,17 +6,23 @@
                     <el-dialog title="查看题目" :visible.sync="show" class="insert" width="65%">
                       <div>
                         <el-row v-for="(PapersTitle,index) in selPapersTitle" :key="index">
-                            <el-form-item label="题目：" :label-width="formLabelWidth">
-                                <h1>{{PapersTitle.title}}</h1>
+                            <el-form-item label="" :label-width="formLabelWidth">
+                                <h1>{{index+1}}. {{PapersTitle.title}}({{PapersTitle.setScore}}分)</h1>
                             </el-form-item>
                             <div v-for="(PapersExercises, indexs) in PapersTitle.papersExercises" :key="indexs">
-                                <el-form-item :label-width="formLabelWidth">
-                                    <el-radio :label="PapersExercises.id">{{PapersExercises.orderNum}}：{{PapersExercises.content}}</el-radio>
-                                </el-form-item>
+                              <el-form-item :label-width="formLabelWidth">
+                                  <el-radio :label="PapersExercises.id">{{PapersExercises.orderNum}}：{{PapersExercises.content}}</el-radio>
+                              </el-form-item>
                             </div>
-                            <el-form-item label="正确答案：" :label-width="formLabelWidth">
-                                <el-input disabled="disabled" style="width:217px" v-model="PapersTitle.standardAnswer" @input="inputUpdate($event)"></el-input>
+                            <el-form-item :label-width="formLabelWidth">
+                              <div v-if="PapersTitle.papersExercises.length == 0">
+                                  <textarea style="width:80%;height:50%;resize:none;" disabled>请输入答案</textarea>
+                              </div>
                             </el-form-item>
+                            <!-- 显示正确答案 -->
+                            <!-- <el-form-item label="正确答案：" :label-width="formLabelWidth">
+                                <el-input disabled="disabled" style="width:217px" v-model="PapersTitle.standardAnswer" @input="inputUpdate($event)"></el-input>
+                            </el-form-item> -->
                             <el-divider></el-divider>
                         </el-row>
                         <!-- 取消or保存 -->

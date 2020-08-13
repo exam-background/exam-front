@@ -546,6 +546,22 @@ export default {
                 createUserId: 1
               },
               childs: null
+            },
+            {
+              entity: {
+                id: 32,
+                parentMenuId: 9,
+                name: '人工阅卷',
+                icon: 'el-icon-s-order',
+                alias: '人工阅卷',
+                state: 'ENABLE',
+                sort: 1,
+                value: '/Stu/PapersUserResult',
+                type: 'LINK',
+                discription: '用于阅卷的菜单',
+                createUserId: 1
+              },
+              childs: null
             }
           ]
         }

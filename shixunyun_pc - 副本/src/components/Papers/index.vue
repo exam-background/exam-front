@@ -411,19 +411,9 @@ export default {
           if (responseData.length > 0) {
             if (this.updatePapers.userId !== '') {
               this.stuDataUp = date
-              // for(let i=0;i<this.updatePapers.userId.length;i++){
-              //   this.stuValueUp.push(this.updatePapers.userId[i])
-              // }
-              // alert(this.stuValueUp)
-              let a = '9,15'
-              alert(a)
-              // for(let i = 0 ; i<this.updatePapers.userId.length ; i++){
-                
-              //   if(i !== (this.updatePapers.userId.length-1)){
-                  
-              //   }
-              // }
-              this.stuValueUp = [a]
+              for (let i = 0; i < this.updatePapers.userId.length; i++) {
+                this.stuValueUp.push(parseInt(this.updatePapers.userId[i]))
+              }
             }
             this.stuData = date
           } else {

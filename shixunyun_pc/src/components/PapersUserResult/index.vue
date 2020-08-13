@@ -3,33 +3,37 @@
         <el-form ref="form" :model="form" label-width="80px">
             <el-form-item>
                     <el-button type="danger" size="small" icon="el-icon-delete" @click="delRow('')">批量删除</el-button>
-                    <el-dialog title="查看题目" :visible.sync="show" class="insert" width="65%">
-                      <div>
-                        <el-row v-for="(PapersTitle,index) in selPapersTitle" :key="index">
-                            <el-form-item label="" :label-width="formLabelWidth">
-                                <h1>{{index+1}}. {{PapersTitle.title}}({{PapersTitle.setScore}}分)</h1>
-                            </el-form-item>
-                            <div v-for="(PapersExercises, indexs) in PapersTitle.papersExercises" :key="indexs">
-                              <el-form-item :label-width="formLabelWidth">
-                                  <el-radio :label="PapersExercises.id">{{PapersExercises.orderNum}}：{{PapersExercises.content}}</el-radio>
-                              </el-form-item>
-                            </div>
+                    <el-dialog title="考试学生" :visible.sync="show" class="insert" width="65%">
+                      <el-button v-for="(PapersUser, index) in selPapersUser" :key="index" v-text="PapersUser.student.stuName" @click="selPapersUsers(PapersUser.userId)"></el-button>
+                    </el-dialog>
+                    <el-dialog title="学生答案" :visible.sync="showUser" class="insert" width="65%">
+                      <el-row v-for="(PapersUserResult,index) in selPapersUserResult" :key="index">
+                          <el-form-item label="" :label-width="formLabelWidth">
+                              <h1>{{index+1}}. {{PapersUserResult.papersTitle.title}}({{PapersUserResult.setScore}}/{{PapersUserResult.mark}}分)</h1>
+                          </el-form-item>
+                          <div v-for="(PapersExercises, index) in PapersUserResult.papersTitle.papersExercises" :key="index">
                             <el-form-item :label-width="formLabelWidth">
-                              <div v-if="PapersTitle.papersExercises.length == 0">
-                                  <textarea style="width:80%;height:50%;resize:none;" disabled>请输入答案</textarea>
-                              </div>
+                                <el-radio v-model="PapersUserResult.userExercise" :label="PapersExercises.orderNum">{{PapersExercises.orderNum}}：{{PapersExercises.content}}</el-radio>
                             </el-form-item>
-                            <!-- 显示正确答案 -->
-                            <!-- <el-form-item label="正确答案：" :label-width="formLabelWidth">
-                                <el-input disabled="disabled" style="width:217px" v-model="PapersTitle.standardAnswer" @input="inputUpdate($event)"></el-input>
-                            </el-form-item> -->
-                            <el-divider></el-divider>
-                        </el-row>
-                        <!-- 取消or保存 -->
-                        <div slot="footer" class="dialog-footer">
-                            <el-button @click="show = false">关 闭</el-button>
-                        </div>
-                      </div>
+                          </div>
+                          <el-form-item :label-width="formLabelWidth" v-if="PapersUserResult.papersTitle.papersExercises.length == 0">
+                            <div>
+                                <textarea style="width:80%;height:50%;resize:none;" disabled v-text="PapersUserResult.userExercise">请输入答案</textarea>
+                            </div>
+                            <el-row>
+                              <el-col el-col :span="4">
+                                <h3>修改分数：</h3>
+                                <el-input v-model="mark" placeholder="请输入内容"></el-input>
+                              </el-col>
+                            </el-row>
+                            <el-button @click="PapersTitleClick(PapersUserResult.id)">修改</el-button>
+                          </el-form-item>
+                          <!-- 显示正确答案 -->
+                          <!-- <el-form-item label="正确答案：" :label-width="formLabelWidth">
+                              <el-input disabled="disabled" style="width:217px" v-model="PapersTitle.standardAnswer" @input="inputUpdate($event)"></el-input>
+                          </el-form-item> -->
+                          <el-divider></el-divider>
+                      </el-row>
                     </el-dialog>
             </el-form-item>
             <el-row class="inputRow">
@@ -122,12 +126,13 @@
 <script>
 import ue from '@/components/ue.vue'
 export default {
-  name: 'KaoShi',
+  name: 'PapersUserResult',
   data () {
     return {
       types: [{ lab: '就业训练', val: 0 }, { lab: '技术考核', val: 1 }],
       tableData: [],
-      selPapersTitle: [],
+      selPapersUser: [],
+      selPapersUserResult: [],
       form: {
         name: '',
         region: ''
@@ -144,7 +149,10 @@ export default {
       },
       pagesize: 10,
       currentPage: 1,
+      userId: 0,
+      mark: '',
       show: false,
+      showUser: false,
       update: false,
       insertFrom: false,
       formLabelWidth: '120px'
@@ -199,14 +207,14 @@ export default {
     selRow (id) {
       var that = this
       this.$axios
-        .post(this.$location.getPapersTitleByPapersId, this.$qs.stringify(
+        .post(this.$location.getPapersUserByPapersId, this.$qs.stringify(
           {
             id: id
           }
         ))
         .then(response => {
           console.log('信息查询结果---->' + JSON.stringify(response.data.data))
-          that.selPapersTitle = response.data.data
+          that.selPapersUser = response.data.data
           this.show = true
         })
         .catch(function (error) {
@@ -261,7 +269,7 @@ export default {
       var that = this
       that.currentPage = 1
       this.$axios
-        .post(this.$location.getPapars, this.$qs.stringify(
+        .post(this.$location.getPapersAllPublish, this.$qs.stringify(
           {
             name: this.selPapers.name,
             type: this.selPapers.type,
@@ -278,6 +286,51 @@ export default {
           console.log('查询请求处理失败')
           console.log(error)
         })
+    },
+    selPapersUsers (id) {
+      this.show = false
+      this.userId = id
+      this.$axios
+        .post(this.$location.getPapersUserByUserId, this.$qs.stringify(
+          {
+            id: id
+          }
+        ))
+        .then(response => {
+          console.log('信息查询结果---->' + JSON.stringify(response.data.data))
+          this.selPapersUserResult = response.data.data
+          this.showUser = true
+        })
+        .catch(function (error) {
+        // 请求失败处理
+          console.log('查询请求处理失败')
+          console.log(error)
+        })
+    },
+    PapersTitleClick (id) {
+      if (this.mark === '') {
+        this.$message({
+          type: 'info',
+          message: '请输入修改分数'
+        })
+      } else {
+        this.$axios
+          .post(this.$location.updatePapersUserResult, this.$qs.stringify(
+            {
+              id: id,
+              mark: this.mark
+            }
+          ))
+          .then(response => {
+            this.selPapersUsers(this.userId)
+            alert(response.data.msg)
+          })
+          .catch(function (error) {
+          // 请求失败处理
+            console.log('查询请求处理失败')
+            console.log(error)
+          })
+      }
     }
   },
   mounted () {
