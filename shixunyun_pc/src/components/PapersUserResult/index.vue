@@ -95,7 +95,7 @@
             @click.native.prevent="selRow(scope.row.id)"
             type="text"
             size="small"
-          >查看题目</el-button>
+          >查看所有考生</el-button>
           <el-button
             @click.native.prevent="updateRow(scope.row)"
             type="text"
@@ -150,6 +150,7 @@ export default {
       pagesize: 10,
       currentPage: 1,
       userId: 0,
+      papersId: 0,
       mark: '',
       show: false,
       showUser: false,
@@ -205,6 +206,7 @@ export default {
 
     },
     selRow (id) {
+      this.papersId = id
       var that = this
       this.$axios
         .post(this.$location.getPapersUserByPapersId, this.$qs.stringify(
@@ -288,12 +290,14 @@ export default {
         })
     },
     selPapersUsers (id) {
+      alert(this.papersId)
       this.show = false
       this.userId = id
       this.$axios
         .post(this.$location.getPapersUserByUserId, this.$qs.stringify(
           {
-            id: id
+            id: id,
+            papersId: this.papersId
           }
         ))
         .then(response => {
