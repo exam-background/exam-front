@@ -289,7 +289,7 @@ export default {
         })
     },
     insertFun () {
-      alert(JSON.stringify(this.insertData))
+      // alert(JSON.stringify(this.insertData))
       this.insert = false
       this.$axios.post(this.$location.addStudent, this.$qs.stringify({
         stuName: this.insertData.name,

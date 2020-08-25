@@ -7,7 +7,7 @@
         <el-dialog title="新增" :visible.sync="insert" class="insert" width="65%">
           <el-form :model="form">
             <el-form-item label="专业" :label-width="formLabelWidth">
-              <el-select v-model="insertJobDayExercise.professionalId" placeholder="请选择">
+              <el-select v-model="insertJobDayExercise.professionalId" placeholder="请选择" @change="selProfesionalIn">
                 <el-option v-for="(professional, professionalindex) in professionals" :key="professionalindex" :label="professional.professionalName" :value="professional.id"></el-option>
               </el-select>
             </el-form-item>
@@ -36,7 +36,7 @@
       <el-row class="inputRow">
         <el-col :span="5">
           <el-form-item label="专业">
-            <el-select v-model="jobDayExercise.professionalId" placeholder="请选择">
+            <el-select v-model="jobDayExercise.professionalId" placeholder="请选择" @change="selProfesionalTe">
               <el-option v-for="(professional, professionalindex) in professionals" :key="professionalindex" :label="professional.professionalName" :value="professional.id"></el-option>
             </el-select>
           </el-form-item>
@@ -104,7 +104,7 @@
     <el-dialog title="修改" :visible.sync="update" class="insert" width="65%">
           <el-form :model="form">
             <el-form-item label="专业" :label-width="formLabelWidth">
-              <el-select v-model="updateJobDayExercise.professionalId" placeholder="请选择">
+              <el-select v-model="updateJobDayExercise.professionalId" placeholder="请选择" @change="selProfesionalUp">
                 <el-option v-for="(professional, professionalindex) in professionals" :key="professionalindex" :label="professional.professionalName" :value="professional.id"></el-option>
               </el-select>
             </el-form-item>
@@ -266,7 +266,6 @@ export default {
         courseId: this.insertJobDayExercise.courselId,
         professionalId: this.insertJobDayExercise.professionalId
       })
-      console.log('data:' + data)
       this.$axios
         .post(this.$location.addJobDayExercise, data)
         .then(response => {
@@ -304,7 +303,7 @@ export default {
         setStandard: this.updateJobDayExercise.setStandard,
         remark: this.updateJobDayExercise.remark,
         professionalId: this.updateJobDayExercise.professionalId,
-        courseId: this.updateJobDayExercise.courseId
+        courseId: this.updateJobDayExercise.courselId
       })
       console.log(data)
       this.$axios
@@ -399,6 +398,32 @@ export default {
             })
           })
       }
+    },
+    selProfesionalIn () {
+      this.selProfesional(this.insertJobDayExercise.professionalId)
+    },
+    selProfesionalUp () {
+      this.selProfesional(this.updateJobDayExercise.professionalId)
+    },
+    selProfesionalTe () {
+      this.selProfesional(this.jobDayExercise.professionalId)
+    },
+    selProfesional (id) {
+      this.$axios
+        .post(this.$location.getCourseByProfessionalId, this.$qs.stringify(
+          {
+            professionalId: id
+          }
+        ))
+        .then(response => {
+          console.log(JSON.stringify(response.data.data))
+          this.courses = response.data.data
+        })
+        .catch(function (error) {
+          // 请求失败处理
+          console.log('查询请求处理失败')
+          console.log(error)
+        })
     }
   },
   mounted () {

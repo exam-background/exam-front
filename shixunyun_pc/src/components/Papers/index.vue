@@ -427,7 +427,6 @@ export default {
         })
     },
     addPapers () {
-      alert(this.selData.professionalId)
       this.insert = false
       const that = this
       this.$axios
