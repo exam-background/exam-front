@@ -27,9 +27,49 @@ Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VCharts)
+axios.defaults.headers.common['Authentication-Token'] = localStorage.getItem("userToken");
 
 new Vue({
   router,
   store,
   render: h => h(App)
+  , mounted() {
+    if (this.timer) {
+      clearInterval(this.timer)
+    } else {
+      this.timer = setInterval(() => {
+        if ("/login" != this.$route.path) {
+          //alert(localStorage.getItem('userToken'))
+          const tokenData = this.$qs.stringify({
+            'userToken': localStorage.getItem('userToken')
+          })
+          axios.post(this.$location.getUsersState, tokenData).then(response => {
+            if (response.data.errorCode == '4002') {
+              localStorage.removeItem("userToken");
+              this.$notify.info({
+                title: '提示',
+                message: '登录验证已过期,请重新登录',
+                duration: 0
+              });
+              this.$router.push("/")
+
+            } else if (response.data.errorCode == '0') {
+
+            }
+          }).catch(error => {
+            localStorage.removeItem("userToken");
+            this.$notify.info({
+              title: '提示',
+              message: '登录验证已过期,请重新登录',
+              duration: 0
+            });
+            this.$router.push("/")
+          })
+        }
+      }, 10000);
+    }
+  },
+  destroyed() {
+    clearInterval(this.timer)
+  }
 }).$mount('#app')

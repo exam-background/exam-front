@@ -14,16 +14,13 @@
             <el-input v-model="insertDate.login_password" autocomplete="off" style="width:217px"></el-input>
           </el-form-item>
           <el-form-item label="部门" :label-width="formLabelWidth" style="width:80%">
-            <el-select v-model="insertDate.department" placeholder="请选择活动区域">
-              <el-option label="java" value="java"></el-option>
-              <el-option label="前端" value="js"></el-option>
+            <el-select v-model="insertDate.department" placeholder="请选择专业">
+              <span v-for="Professional in Professionals"><el-option  :label="Professional.professionalName" :value="Professional.professionalName"></el-option></span>
             </el-select>
           </el-form-item>
           <el-form-item label="职位" :label-width="formLabelWidth" style="width:80%">
-            <el-select v-model="insertDate.position" placeholder="请选择活动区域">
-              <el-option label="超级管理员" value="root"></el-option>
-              <el-option label="管理员" value="amin"></el-option>
-              <el-option label="普通用户" value="user"></el-option>
+            <el-select v-model="insertDate.position" placeholder="请选择职位">
+              <span v-for="role in roleList"><el-option  :label="role.roleName" :value="role.roleMark"></el-option></span>
             </el-select>
           </el-form-item>
           <el-form-item label="真实名称" :label-width="formLabelWidth">
@@ -32,7 +29,7 @@
           <el-form-item label="手机号码" :label-width="formLabelWidth">
             <el-input v-model="insertDate.mobile_phone" autocomplete="off" style="width:217px"></el-input>
           </el-form-item>
-          <el-form-item label="创建日期" :label-width="formLabelWidth">
+         <!-- <el-form-item label="创建日期" :label-width="formLabelWidth">
             <div class="block">
               <el-date-picker
                 v-model="insertDate.create_time"
@@ -40,7 +37,7 @@
                 placeholder="选择日期时间">
               </el-date-picker>
             </div>
-          </el-form-item>
+          </el-form-item> -->
     </el-form>
           <!-- 取消or保存 -->
            <div slot="footer" class="dialog-footer">
@@ -58,9 +55,10 @@
         <el-col :span="5">
             <el-form-item label="职位">
             <el-select v-model="form.position" placeholder="请选择">
-                <el-option label="超级管理员" value="root"></el-option>
-                <el-option label="管理员" value="admin"></el-option>
-                <el-option label="普通用户" value="user"></el-option>
+              <span><el-option  label="所有" value=""></el-option></span>
+
+
+              <span v-for="role in roleList"><el-option  :label="role.roleName" :value="role.roleMark"></el-option></span>
             </el-select>
             </el-form-item>
         </el-col>
@@ -132,7 +130,7 @@
   <!-- 修改 -->
   <el-dialog title="修改" :visible.sync="update" class="insert">
     <el-form :model="updataData">
-      <el-form-item label="登录名称" :label-width="formLabelWidth">
+      <el-form-item  label="登录名称" :label-width="formLabelWidth">
         <el-input v-model="updataData.login_name" autocomplete="off" style="width:217px" placeholder="请输入登录名称"></el-input>
       </el-form-item>
       <el-form-item label="登录密码" :label-width="formLabelWidth">
@@ -140,15 +138,13 @@
       </el-form-item>
       <el-form-item label="部门" :label-width="formLabelWidth" style="width:80%">
         <el-select v-model="updataData.department" placeholder="请选择部门">
-          <el-option label="java" value="java"></el-option>
-          <el-option label="前端" value="前端"></el-option>
+              <span v-for="Professional in Professionals"><el-option  :label="Professional.professionalName" :value="Professional.professionalName"></el-option></span>
+
         </el-select>
       </el-form-item>
       <el-form-item label="职位" :label-width="formLabelWidth" style="width:80%">
         <el-select v-model="updataData.position" placeholder="请选择职位">
-          <el-option label="超级管理员" value="root"></el-option>
-          <el-option label="管理员" value="admin"></el-option>
-          <el-option label="普通用户" value="user"></el-option>
+              <span v-for="role in roleList"><el-option  :label="role.roleName" :value="role.roleMark"></el-option></span>
         </el-select>
       </el-form-item>
       <el-form-item label="真实名称" :label-width="formLabelWidth">
@@ -157,7 +153,7 @@
       <el-form-item label="手机号码" :label-width="formLabelWidth">
         <el-input v-model="updataData.mobile_phone" autocomplete="off" style="width:217px" placeholder="请输入手机号码"></el-input>
       </el-form-item>
-      <el-form-item label="创建日期" :label-width="formLabelWidth">
+     <!-- <el-form-item label="创建日期" :label-width="formLabelWidth">
             <div class="block">
               <el-date-picker
                 v-model="updataData.create_time"
@@ -165,7 +161,7 @@
                 placeholder="选择日期时间">
               </el-date-picker>
             </div>
-          </el-form-item>
+          </el-form-item> -->
     </el-form>
     <!-- 取消or保存 -->
     <div slot="footer" class="dialog-footer">
@@ -185,8 +181,17 @@
   </div>
 </template>
 <script>
+  import axios from 'axios'
 export default {
   name: 'User',
+  activated() {
+
+},
+created() {
+  this.getProfessionalNoPage()
+  this.getRoleList();
+  console.log(this.Professionals);
+},
   data () {
     return {
       tableData: [],
@@ -221,10 +226,25 @@ export default {
       formLabelWidth: '120px',
       department: '',
       position: '',
-      deleteUsers: ''
+      deleteUsers: '',
+      Professionals :[],
+      roleList :[]
     }
   },
   methods: {
+    getProfessionalNoPage(){
+      axios.get(this.$location.getProfessionalNoPage)
+      .then(res=>{
+        this.Professionals= res.data.data;
+        })
+      },
+      getRoleList(){
+        axios.get(this.$location.getSysRoleList)
+        .then(res=>{
+          this.roleList= res.data.data;
+          })
+      }
+      ,
     cellStyle ({ row, column, rowIndex, columnIndex }) {
     // 表格文字居中
       return 'text-align:center'
@@ -256,8 +276,12 @@ export default {
           }
         ))
         .then(response => {
-          console.log('初始化结果---->' + JSON.stringify(response.data.data))
-          that.tableData = response.data.data
+        if(null != response.data.data){
+            console.log('初始化结果---->' + JSON.stringify(response.data.data))
+                    that.tableData = response.data.data
+        }else{
+          that.tableData = [];
+        }
         })
         .catch(function (error) {
           // 请求失败处理
@@ -277,8 +301,12 @@ export default {
           }
         ))
         .then(response => {
-          console.log('查询结果---->' + JSON.stringify(response.data.data))
-          that.tableData = response.data.data
+         if(null != response.data.data){
+             console.log('初始化结果---->' + JSON.stringify(response.data.data))
+                     that.tableData = response.data.data
+         }else{
+           that.tableData = [];
+         }
         })
         .catch(function (error) {
           // 请求失败处理

@@ -3,7 +3,30 @@
 var examsystemPath = 'http://localhost:8081/examsystem'
 
 const location ={
+  //获取所有菜单
+ 
+addRoleMenu : examsystemPath + '/addRoleMenu',
 
+  //获取所有菜单
+getAllMenu : examsystemPath + '/getAllMenu',
+  //获取专业列表
+  getProfessionalNoPage : examsystemPath + '/getProfessionalNoPage',
+  //获取后台https证书测试方法
+  getPower : examsystemPath + '/getPower',
+//获取用户菜单
+userMenu : examsystemPath + '/userMenu',
+
+//获取验证码
+captcha : examsystemPath + '/captcha',
+
+//校验用户状态
+getUsersState : examsystemPath + '/getUsersState',
+
+//校验验证码
+checkCaptCha : examsystemPath + '/checkCaptCha',
+
+  //登录
+loginPath : examsystemPath + '/login',
 //班级管理
  classForPage : examsystemPath + '/classForPage',
 

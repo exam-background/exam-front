@@ -400,6 +400,7 @@ export default {
       }
     },
     selProfesionalIn () {
+      alert(1)
       this.selProfesional(this.insertJobDayExercise.professionalId)
     },
     selProfesionalUp () {

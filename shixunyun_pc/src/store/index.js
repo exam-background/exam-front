@@ -11,9 +11,18 @@ export default new Vuex.Store({
     BarContent: [],
     // 班级信息数据
     ban: [],
-    zhuan: []
+    zhuan: [],
+    token:''
   },
   mutations: {
+    set_token(state, token) {
+    state.token = token
+    localStorage.setItem("userToken",token)
+    },
+    del_token(state) {
+    state.token = ''
+    localStorage.removeItem('userToken')
+    },
     topQieM (state) {
       state.idCollapseState = !state.idCollapseState
     },
@@ -30,11 +39,11 @@ export default new Vuex.Store({
   },
   actions: {
     async getBan ({ commit }) {
-      const result = await axios.get('http://192.168.43.108:8081/examsystem/getAllClassNoPage')
+      const result = await axios.get(this.$locations.getAllClassNoPage)
       commit('selBanFun', result.data.data)
     },
     async getZhuan ({ commit }) {
-      const result = await axios.get('http://192.168.43.108:8081/examsystem/getProfessionalNoPage')
+      const result = await axios.get(this.$locations.getProfessionalNoPage)
       commit('selZhuanFun', result.data.data)
     }
   },
