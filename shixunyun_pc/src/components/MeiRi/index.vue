@@ -75,8 +75,16 @@
       <el-table-column prop="professional.professionalName" label="专业"></el-table-column>
       <el-table-column prop="course.courseName" label="科目" show-overflow-tooltip></el-table-column>
       <el-table-column prop="title" label="题目"></el-table-column>
-      <el-table-column prop="answer" label="标准答案"></el-table-column>
-      <el-table-column prop="setStandard" label="评分标准"></el-table-column>
+      <el-table-column prop="answer" label="标准答案" show-overflow-tooltip>
+        <template slot-scope="scope">
+              <div v-html="scope.row.answer"></div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="setStandard" label="评分标准">
+        <template slot-scope="scope">
+              <div v-html="scope.row.setStandard"></div>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button
@@ -411,11 +419,11 @@ export default {
     },
     selProfesional (id) {
       this.$axios
-        .post(this.$location.getCourseByProfessionalId, this.$qs.stringify(
-          {
+        .get(this.$location.getCourseByProfessionalId, {
+          params: {
             professionalId: id
           }
-        ))
+        })
         .then(response => {
           console.log(JSON.stringify(response.data.data))
           this.courses = response.data.data

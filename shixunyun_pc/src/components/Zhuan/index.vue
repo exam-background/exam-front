@@ -227,7 +227,7 @@ export default {
       this.$axios
         .get(this.$location.professionalForPage, {
           params: {
-            pagesize: this.pagesize,
+            pageSize: this.pagesize,
             currentPage: this.currentPage
           }
         })

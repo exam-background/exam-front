@@ -9,7 +9,7 @@
         <el-dialog title="新增示范" :visible.sync="insert" class="insert" width="65%">
           <el-form>
           <el-form-item label="专业" :label-width="formLabelWidth">
-            <el-select v-model="insertForm.professionalId" placeholder="请选择专业">
+            <el-select v-model="insertForm.professionalId" placeholder="请选择专业" @change="selProfesionalIn">
               <el-option  v-for="profress in  professionSelect"
               :key="profress.id" :label="profress.professionalName" :value="profress.id"></el-option>
             </el-select>
@@ -42,7 +42,7 @@
     <el-row class="inputRow">
         <el-col :span="6" :offset="1">
             <el-form-item label="专业">
-            <el-select v-model="searchForm.proName" placeholder="请选择专业" clearable="">
+            <el-select v-model="searchForm.proName" placeholder="请选择专业" clearable="" @change="selProfesionalTe">
                 <el-option v-for="profress in professionSelect" :key="profress.id" :label="profress.professionalName" :value="profress.id"></el-option>
             </el-select>
             </el-form-item>
@@ -101,6 +101,9 @@
     <el-table-column
       prop="answer"
       label="标准答案">
+      <template slot-scope="scope">
+            <div v-html="scope.row.answer"></div>
+      </template>
     </el-table-column>
     <el-table-column
       fixed="right"
@@ -139,7 +142,7 @@
   <el-form v-model="updateForm">
     <el-input v-model="updateForm.id" type="hidden"></el-input>
     <el-form-item label="专业" :label-width="formLabelWidth">
-        <el-select v-model="updateForm.professionalId" placeholder="请选择专业">
+        <el-select v-model="updateForm.professionalId" placeholder="请选择专业" @change="selProfesionalUp">
           <el-option  v-for="profress in  professionSelect"
           :key="profress.id" :label="profress.professionalName" :value="profress.id"></el-option>
         </el-select>
@@ -383,6 +386,7 @@ export default {
                 type: 'info',
                 message: response.data.msg
               })
+              this.getData()
             }else{
               that.$message({
                 type: 'success',
@@ -417,12 +421,12 @@ export default {
     },
     handleSelectionChange (val) {
       this.deleteJobExam=[]
-    for (let i = 0; i < val.length; i++) {
-       this.deleteJobExam.push(val[i].id)
-    }
+      for (let i = 0; i < val.length; i++) {
+        this.deleteJobExam.push(val[i].id)
+      }
 
     },
-    getData:function(){
+    getData () {
       // let data = this.$qs.stringify(this.searchForm)
       var that = this
       this.$axios
@@ -442,14 +446,37 @@ export default {
           console.log(error)
         })
 
+    },
+    selProfesionalIn () {
+      this.selProfesional(this.insertForm.professionalId)
+    },
+    selProfesionalUp () {
+      this.selProfesional(this.updateForm.professionalId)
+    },
+    selProfesionalTe () {
+      this.selProfesional(this.searchForm.proName)
+    },
+    selProfesional (id) {
+      this.$axios
+        .get(this.$location.getCourseByProfessionalId, {
+          params: {
+            professionalId: id
+          }
+        })
+        .then(response => {
+          console.log(JSON.stringify(response.data.data))
+          this.courseSelect = response.data.data
+        })
+        .catch(function (error) {
+          // 请求失败处理
+          console.log('查询请求处理失败')
+          console.log(error)
+        })
     }
   },
-  mounted() {
-
-  this.getData(),
-  this.getCourseAndProfressional()
-
-
+  mounted () {
+    this.getData()
+    this.getCourseAndProfressional()
   },
   components: {
     ue

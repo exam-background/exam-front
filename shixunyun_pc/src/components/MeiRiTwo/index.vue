@@ -140,8 +140,16 @@
       <el-table-column prop="course.courseName" label="科目" show-overflow-tooltip></el-table-column>
       <el-table-column prop="title" label="题目"></el-table-column>
       <el-table-column prop="sysDictionary.dictionaryName" label="题型"></el-table-column>
-      <el-table-column prop="standardAnswer" label="标准答案"></el-table-column>
-      <el-table-column prop="analysis" label="题目解析"></el-table-column>
+      <el-table-column prop="standardAnswer" label="标准答案" show-overflow-tooltip>
+        <template slot-scope="scope">
+              <div v-html="scope.row.standardAnswer"></div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="analysis" label="题目解析">
+        <template slot-scope="scope">
+              <div v-html="scope.row.analysis"></div>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button
@@ -640,11 +648,11 @@ export default {
     },
     selProfesional (id) {
       this.$axios
-        .post(this.$location.getCourseByProfessionalId, this.$qs.stringify(
-          {
+        .get(this.$location.getCourseByProfessionalId, {
+          params: {
             professionalId: id
           }
-        ))
+        })
         .then(response => {
           console.log(JSON.stringify(response.data.data))
           this.courses = response.data.data
