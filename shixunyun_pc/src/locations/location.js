@@ -175,7 +175,13 @@ loginPath : examsystemPath + '/login',
  // 根据试卷id查询考试学生
  getPapersUserByPapersId: examsystemPath + '/getPapersUserByPapersId',
  // 人工阅卷
- updatePapersUserResult: examsystemPath + '/updatePapersUserResult'
+ updatePapersUserResult: examsystemPath + '/updatePapersUserResult',
+
+ // 错题本
+ // 根据条件查询错题记录
+ getErrorTechnologyDayExercise: examsystemPath + '/getErrorTechnologyDayExercise',
+ // 根据题目id查看错误学生
+ getErrorTechnologyDayExerciseStudentByExercise: examsystemPath + '/getErrorTechnologyDayExerciseStudentByExercise'
 }
 
 export default location
