@@ -181,7 +181,17 @@ loginPath : examsystemPath + '/login',
  // 根据条件查询错题记录
  getErrorTechnologyDayExercise: examsystemPath + '/getErrorTechnologyDayExercise',
  // 根据题目id查看错误学生
- getErrorTechnologyDayExerciseStudentByExercise: examsystemPath + '/getErrorTechnologyDayExerciseStudentByExercise'
+ getErrorTechnologyDayExerciseStudentByExercise: examsystemPath + '/getErrorTechnologyDayExerciseStudentByExercise',
+
+ // 教师关联班级
+ // 增加教师关联班级
+ insertTeacherClass: examsystemPath + '/insertTeacherClass',
+ // 删除教师关联班级
+ deleteTeacherClass: examsystemPath + '/deleteTeacherClass',
+ // 修改教师关联班级
+ updateTeacherClass: examsystemPath + '/updateTeacherClass',
+ // 查询教师关联班级
+ selectTeacherClass: examsystemPath + '/selectTeacherClass'
 }
 
 export default location
