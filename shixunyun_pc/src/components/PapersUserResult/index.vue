@@ -7,6 +7,7 @@
                       <el-button v-for="(PapersUser, index) in selPapersUser" :key="index" v-text="PapersUser.student.stuName" @click="selPapersUsers(PapersUser.userId)"></el-button>
                     </el-dialog>
                     <el-dialog title="学生答案" :visible.sync="showUser" class="insert" width="65%">
+                      <h1 v-if="selPapersUserResult == ''">学生暂未作答</h1>
                       <el-row v-for="(PapersUserResult,index) in selPapersUserResult" :key="index">
                           <el-form-item label="" :label-width="formLabelWidth">
                               <h1>{{index+1}}. {{PapersUserResult.papersTitle.title}}({{PapersUserResult.setScore}}/{{PapersUserResult.mark}}分)</h1>
@@ -96,11 +97,6 @@
             type="text"
             size="small"
           >查看所有考生</el-button>
-          <el-button
-            @click.native.prevent="updateRow(scope.row)"
-            type="text"
-            size="small"
-          >发布</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -290,7 +286,6 @@ export default {
         })
     },
     selPapersUsers (id) {
-      alert(this.papersId)
       this.show = false
       this.userId = id
       this.$axios
@@ -327,7 +322,6 @@ export default {
           ))
           .then(response => {
             this.selPapersUsers(this.userId)
-            alert(response.data.msg)
           })
           .catch(function (error) {
           // 请求失败处理
