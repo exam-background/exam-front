@@ -199,11 +199,11 @@ export default {
     selRow (id) {
       var that = this
       this.$axios
-        .post(this.$location.getPapersTitleByPapersId, this.$qs.stringify(
-          {
+        .get(this.$location.getPapersTitleByPapersId, {
+          params: {
             id: id
           }
-        ))
+        })
         .then(response => {
           console.log('信息查询结果---->' + JSON.stringify(response.data.data))
           that.selPapersTitle = response.data.data

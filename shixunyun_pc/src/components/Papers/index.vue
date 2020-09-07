@@ -137,23 +137,24 @@
           <el-input placeholder="请输入名称" style="width:217px" v-model="updatePapers.name" @input="inputUpdate($event)"></el-input>
         </el-form-item>
         <el-form-item label="考核类型" :label-width="formLabelWidth">
-          <el-select v-model="updatePapers.type" placeholder="请选择专业">
+          <el-select v-model="updatePapers.type" placeholder="请选择专业" disabled>
             <el-option v-for="(t, index) in types" :key="index" :label="t.lab" :value="t.val"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="题目数量" :label-width="formLabelWidth">
-          <el-select v-model="updatePapers.sum" placeholder="请选择题目数量">
+          <el-select v-model="updatePapers.sum" placeholder="请选择题目数量" disabled>
             <el-option v-for="(item, index) in sumArray" :key="index" :label="item.lab" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="考试班级" :label-width="formLabelWidth">
-          <el-select v-model="selData.name" placeholder="请选择" clearable="" @change="selClass">
+          <el-select v-model="selData.name" placeholder="请选择" clearable="" @change="selClass" disabled>
             <el-option v-for="(item, index) in classSelect" :key="index" :label="item.className" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="考试用户" :label-width="formLabelWidth" >
-          <el-transfer v-model="stuValueUp" :data="stuDataUp" :titles="['班级学生', '考试学生']" v-if="stuDataUp!=''"></el-transfer>
-          <h2 v-text="stuText" v-else></h2>
+        <el-form-item label="考试专业" :label-width="formLabelWidth">
+          <el-select v-model="selData.professionalId" placeholder="请选择" @change="selProfessionals" disabled>
+            <el-option v-for="(professional, professionalindex) in professionals" :key="professionalindex" :label="professional.professionalName" :value="professional.id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="出题人" :label-width="formLabelWidth">
           <el-input placeholder="请输入名称" style="width:217px" v-model="updatePapers.papersName" @input="inputUpdate($event)"></el-input>
@@ -318,14 +319,14 @@ export default {
       var that = this
       that.currentPage = 1
       this.$axios
-        .post(this.$location.getPapars, this.$qs.stringify(
-          {
+        .get(this.$location.getPapars, {
+          params: {
             name: this.selPapers.name,
             type: this.selPapers.type,
             papersName: this.selPapers.papersName,
             course_id: this.selPapers.courseId
           }
-        ))
+        })
         .then(response => {
           console.log('信息查询结果---->' + JSON.stringify(response.data.data))
           that.tableData = response.data.data
@@ -337,12 +338,9 @@ export default {
         })
     },
     delPapers (delPapersOne, event) {
-      console.log(delPapersOne)
-      console.log(delPapersOne !== '')
       if (delPapersOne !== '') {
         this.delPapersJSON.push(delPapersOne)
       }
-      console.log(JSON.stringify(this.delPapersJSON))
       if (this.delPapersJSON.length === 0) {
         this.$message({
           type: 'info',
@@ -501,6 +499,7 @@ export default {
     },
     updateRow (data) {
       this.update = true
+      this.updatePapers.id = data.id
       this.updatePapers.name = data.name
       this.updatePapers.type = data.type
       this.updatePapers.sum = data.sum
@@ -517,8 +516,9 @@ export default {
       this.update = false
       const that = this
       this.$axios
-        .post(this.$location.updatePapers, JSON.stringify(
+        .put(this.$location.updatePapers, JSON.stringify(
           {
+            id: this.updatePapers.id,
             name: this.updatePapers.name,
             type: this.updatePapers.type,
             sum: this.updatePapers.sum,
@@ -528,12 +528,12 @@ export default {
             userId: this.stuValueUp
           }), { headers: { 'Content-Type': 'application/json' } })
         .then(response => {
-          console.log('删除结果：' + response.msg)
+          console.log('修改结果：' + response.msg)
           this.getDate()
         })
         .catch(function (error) {
           // 请求失败处理
-          console.log('删除请求处理失败')
+          console.log('修改请求处理失败')
           console.log(error)
         })
     },

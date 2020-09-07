@@ -205,11 +205,11 @@ export default {
       this.papersId = id
       var that = this
       this.$axios
-        .post(this.$location.getPapersUserByPapersId, this.$qs.stringify(
-          {
+        .get(this.$location.getPapersUserByPapersId, {
+          params: {
             id: id
           }
-        ))
+        })
         .then(response => {
           console.log('信息查询结果---->' + JSON.stringify(response.data.data))
           that.selPapersUser = response.data.data
@@ -289,12 +289,12 @@ export default {
       this.show = false
       this.userId = id
       this.$axios
-        .post(this.$location.getPapersUserByUserId, this.$qs.stringify(
-          {
+        .get(this.$location.getPapersUserByUserId, {
+          params: {
             id: id,
             papersId: this.papersId
           }
-        ))
+        })
         .then(response => {
           console.log('信息查询结果---->' + JSON.stringify(response.data.data))
           this.selPapersUserResult = response.data.data
@@ -314,7 +314,7 @@ export default {
         })
       } else {
         this.$axios
-          .post(this.$location.updatePapersUserResult, this.$qs.stringify(
+          .put(this.$location.updatePapersUserResult, JSON.stringify(
             {
               id: id,
               mark: this.mark
