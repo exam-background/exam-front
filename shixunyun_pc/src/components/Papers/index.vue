@@ -390,6 +390,7 @@ export default {
         })
     },
     selClass () {
+      alert(this.selData.name)
       this.stuData = ''
       this.stuValue = []
       this.$axios

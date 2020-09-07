@@ -82,6 +82,11 @@
         <el-form-item label="角色唯一标识" :label-width="formLabelWidth">
           <el-input placeholder="请输入角色标识" v-model="updateForm.roleMark"></el-input>
         </el-form-item>
+        <el-form-item label="角色权限" :label-width="formLabelWidth">
+          <el-tree :default-checked-keys="checkedKeys" :data="updateRoleMenu" show-checkbox node-key="id" ref="tree2" highlight-current :props="defaultProps"
+            icon-class="el-icon-s-custom">
+          </el-tree>
+        </el-form-item>
         <el-form-item label="角色说明" :label-width="formLabelWidth">
           <el-input v-model="updateForm.roleDescription" placeholder="请输入角色说明" autocomplete="off"></el-input>
         </el-form-item>
@@ -105,6 +110,8 @@
     data() {
       return {
         roleMenu: [],
+        checkedKeys :[],
+        updateRoleMenu:[],
         defaultProps: {
           children: 'children',
           label: 'label'
@@ -241,6 +248,14 @@
           cancelButtonText: '取消',
           type: 'info'
         }).then(() => {
+          let menuIdArray = this.$qs.stringify({
+            "menus": this.$refs.tree2.getCheckedKeys(),
+            "roleMark": this.updateForm.id
+          }, {
+            indices: false
+          })
+          this.$axios
+            .post(this.$location.updateRoleMenu, menuIdArray)
           this.$axios
             .post(this.$location.updateSysRole, data)
             .then(response => {
@@ -291,6 +306,16 @@
       },
 
       updateRow(id) {
+         this.checkedKeys = [];
+         this.updateRoleMenu = this.getMenuTree();
+        this.$axios
+          .get(this.$location.getMenuIdList + '/' + id)
+          .then(response => {
+              let menuIdList = response.data.data;
+              this.checkedKeys = menuIdList;
+          }).catch(function(error) {
+            alert(error)
+            })
         // alert(id)
         var that = this
         if (id <= 0 || id == null) return;
@@ -386,7 +411,9 @@
       }
     },
     mounted() {
-      this.roleMenu = this.getMenuTree();
+      let menus = this.getMenuTree();
+      this.roleMenu = menus;
+      this.updateRoleMenu = menus;
       this.getData()
     },
     activated() {
@@ -402,7 +429,6 @@
   .el-form-item {
     margin: 10px 0;
   }
-
   .demo-table-expand {
     font-size: 0;
   }

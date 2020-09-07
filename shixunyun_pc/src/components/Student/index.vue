@@ -34,6 +34,16 @@
               ></el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="登录用户名" :label-width="formLabelWidth">
+              <div class="block">
+                <el-input v-model="insertData.loginName" autocomplete="off" style="width:217px" placeholder="请输入登录用户名"></el-input>
+              </div>
+            </el-form-item>
+            <el-form-item label="登录密码" :label-width="formLabelWidth">
+              <div class="block">
+                <el-input v-model="insertData.loginPassword" autocomplete="off" style="width:217px" placeholder="请输入登录密码"></el-input>
+              </div>
+            </el-form-item>
           </el-form>
           <!-- 取消or保存 -->
           <div slot="footer" class="dialog-footer">
@@ -189,7 +199,9 @@ export default {
         name: '',
         openTime: '',
         class: '',
-        professional: ''
+        professional: '',
+        loginName: '',
+        loginPassword: ''
       },
       update: false,
       updData: {
@@ -295,7 +307,9 @@ export default {
         stuName: this.insertData.name,
         professionalId: this.insertData.professional,
         classId: this.insertData.class,
-        openClassTime:this.insertData.openTime
+        openClassTime:this.insertData.openTime,
+        loginName: this.insertData.loginName,
+        loginPassword: this.insertData.loginPassword
       })).then(response => {
         if (response.status === 200) {
           this.$message('新增成功')

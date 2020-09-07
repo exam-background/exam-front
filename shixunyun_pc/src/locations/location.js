@@ -3,7 +3,11 @@
 var examsystemPath = 'http://localhost:8081/examsystem'
 
 const location ={
-  //获取所有菜单
+  //更新角色的菜单
+updateRoleMenu : examsystemPath + '/updateRoleMenu',
+//获取角色的菜单id列表
+getMenuIdList : examsystemPath + '/getMenuIdList',
+//获取所有菜单
  
 addRoleMenu : examsystemPath + '/addRoleMenu',
 
