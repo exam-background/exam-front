@@ -1,42 +1,6 @@
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item>
-        <el-button type="primary" size="small" icon="el-icon-plus" @click="insert=true">新增</el-button>
-        <el-button type="danger" size="small" icon="el-icon-delete">批量删除</el-button>
-        <el-dialog title="新增" :visible.sync="insert" class="insert">
-          <el-form :model="form">
-            <el-form-item label="专业" :label-width="formLabelWidth">
-              <el-select v-model="form.region" placeholder="请选择">
-                <el-option label="JAVA" value="S1"></el-option>
-                <el-option label=".NET" value="S2"></el-option>
-                <el-option label="前端" value="Y2"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="科目" :label-width="formLabelWidth">
-              <el-select v-model="form.region" placeholder="请选择">
-                <el-option label="Vue" value="S1"></el-option>
-                <el-option label="小程序" value="S2"></el-option>
-                <el-option label="JS" value="Y2"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="学生" :label-width="formLabelWidth">
-              <el-input v-model="form.name" placeholder="请输入内容" style="width:217px"></el-input>
-            </el-form-item>
-            <el-form-item label="答案" :label-width="formLabelWidth">
-              <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="textarea"></el-input>
-            </el-form-item>
-            <el-form-item label="评分标准" :label-width="formLabelWidth">
-              <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="textarea"></el-input>
-            </el-form-item>
-          </el-form>
-          <!-- 取消or保存 -->
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="insertFrom = false">取 消</el-button>
-            <el-button type="primary" @click="insertFrom = false">保 存</el-button>
-          </div>
-        </el-dialog>
-      </el-form-item>
       <el-row class="inputRow">
         <el-col :span="5">
           <el-form-item label="专业">
@@ -92,11 +56,6 @@
             type="text"
             size="small"
           >移除</el-button>
-          <el-button
-            @click.native.prevent="deleteRow(scope.$index, tableData)"
-            type="text"
-            size="small"
-          >修改</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -116,128 +75,7 @@ export default {
   name: 'ZhongDianStu',
   data () {
     return {
-      tableData: [
-        {
-          id: '0',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任1',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        },
-        {
-          id: '1',
-          zhuanYe: '前端',
-          kemu: 'Vue',
-          stu: '任2',
-          pianke: '组件',
-          zonghe: '70分'
-        }
-      ],
+      tableData: [],
       form: {
         name: '',
         region: ''
@@ -268,10 +106,6 @@ export default {
     },
     handleSelectionChange (val) {
       console.log(val)
-    },
-    insertFun () {
-      console.log(1)
-      this.insert = true
     }
   }
 }

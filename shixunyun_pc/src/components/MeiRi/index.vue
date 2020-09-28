@@ -110,33 +110,33 @@
       :total="tableData.length"
     ></el-pagination>
     <el-dialog title="修改" :visible.sync="update" class="insert" width="65%">
-          <el-form :model="form">
-            <el-form-item label="专业" :label-width="formLabelWidth">
-              <el-select v-model="updateJobDayExercise.professionalId" placeholder="请选择" @change="selProfesionalUp">
-                <el-option v-for="(professional, professionalindex) in professionals" :key="professionalindex" :label="professional.professionalName" :value="professional.id"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="科目" :label-width="formLabelWidth">
-              <el-select v-model="updateJobDayExercise.courselId" placeholder="请选择">
-                <el-option v-for="(course, courseindex) in courses" :key="courseindex" :label="course.courseName" :value="course.id"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="题目" :label-width="formLabelWidth">
-              <el-input v-model="updateJobDayExercise.title" placeholder="请输入内容" style="width:217px"></el-input>
-            </el-form-item>
-            <el-form-item label="答案" :label-width="formLabelWidth">
-              <ue v-model="updateJobDayExercise.answer"></ue>
-            </el-form-item>
-            <el-form-item label="评分标准" :label-width="formLabelWidth">
-              <ue v-model="updateJobDayExercise.setStandard"></ue>
-            </el-form-item>
-          </el-form>
-          <!-- 取消or保存 -->
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="update = false">取 消</el-button>
-            <el-button type="primary" @click="updateJobDayExercises">修 改</el-button>
-          </div>
-        </el-dialog>
+      <el-form :model="form">
+        <el-form-item label="专业" :label-width="formLabelWidth">
+          <el-select v-model="updateJobDayExercise.professionalId" placeholder="请选择" @change="selProfesionalUp">
+            <el-option v-for="(professional, professionalindex) in professionals" :key="professionalindex" :label="professional.professionalName" :value="professional.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="科目" :label-width="formLabelWidth">
+          <el-select v-model="updateJobDayExercise.courselId" placeholder="请选择">
+            <el-option v-for="(course, courseindex) in courses" :key="courseindex" :label="course.courseName" :value="course.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="题目" :label-width="formLabelWidth">
+          <el-input v-model="updateJobDayExercise.title" placeholder="请输入内容" style="width:217px"></el-input>
+        </el-form-item>
+        <el-form-item label="答案" :label-width="formLabelWidth">
+          <ue v-model="updateJobDayExercise.answer"></ue>
+        </el-form-item>
+        <el-form-item label="评分标准" :label-width="formLabelWidth">
+          <ue v-model="updateJobDayExercise.setStandard"></ue>
+        </el-form-item>
+      </el-form>
+      <!-- 取消or保存 -->
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="update = false">取 消</el-button>
+        <el-button type="primary" @click="updateJobDayExercises">修 改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>

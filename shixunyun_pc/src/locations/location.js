@@ -195,7 +195,11 @@ loginPath : examsystemPath + '/login',
  // 修改教师关联班级
  updateTeacherClass: examsystemPath + '/updateTeacherClass',
  // 查询教师关联班级
- selectTeacherClass: examsystemPath + '/selectTeacherClass'
+ selectTeacherClass: examsystemPath + '/selectTeacherClass',
+ // 统计根据分类查询试卷
+ getPapersByType: examsystemPath + '/getPapersByType',
+ // 根据试卷id查询试卷和学生作答
+ getPapersByUserIdAndTypeFinish: examsystemPath + '/getPapersByUserIdAndTypeFinish'
 }
 
 export default location

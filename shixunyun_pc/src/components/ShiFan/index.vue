@@ -320,19 +320,18 @@ export default {
     },
 
     getCourseAndProfressional(){
-     this.$axios.get(this.$location.courseForPage,{
-        params:{
-          pageSize:10,
-          currentPage:1
-        }
-      })
-      .then(response =>{
-        // alert(JSON.stringify(response.data.data.data))
-        this.courseSelect=response.data.data.data
-      })
-      .catch(function(error){
-        alert("错误请求。。。")
-      }),
+     var that = this
+      this.$axios
+        .get(this.$location.getAllCourse)
+        .then(response => {
+          console.log('科目查询结果---->' + JSON.stringify(response.data.data))
+          that.courseSelect = response.data.data
+        })
+        .catch(function (error) {
+          // 请求失败处理
+          console.log('查询请求处理失败')
+          console.log(error)
+        })
 
       this.$axios.get(this.$location.professionalForPage,{
          params:{

@@ -267,14 +267,14 @@ export default {
       var that = this
       that.currentPage = 1
       this.$axios
-        .post(this.$location.getPapersAllPublish, this.$qs.stringify(
-          {
+        .get(this.$location.getPapersAllPublish, {
+          params: {
             name: this.selPapers.name,
             type: this.selPapers.type,
             papersName: this.selPapers.papersName,
             course_id: this.selPapers.courseId
           }
-        ))
+        })
         .then(response => {
           console.log('信息查询结果---->' + JSON.stringify(response.data.data))
           that.tableData = response.data.data

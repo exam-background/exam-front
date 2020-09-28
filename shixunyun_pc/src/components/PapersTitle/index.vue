@@ -216,6 +216,7 @@ export default {
         })
     },
     updateRow (data) {
+      alert(data.id)
       if (data.ispublish === 1) {
         this.$confirm('已发布的试卷无法再次发布', '提示', {
           confirmButtonText: '确定',
@@ -232,13 +233,13 @@ export default {
           var that = this
           that.currentPage = 1
           this.$axios
-            .post(this.$location.publishPapers, this.$qs.stringify(
-              {
-                id: data.id
-              }
-            ))
+            .put(
+              this.$location.publishPapers, JSON.stringify(
+                {
+                  id: data.id
+                }), { headers: { 'Content-Type': 'application/json' } })
             .then(response => {
-              this.$confirm('试卷发布成功', '提示', {
+              this.$confirm(response.data.msg, '提示', {
                 confirmButtonText: '确定',
                 type: 'warning'
               })
@@ -261,14 +262,14 @@ export default {
       var that = this
       that.currentPage = 1
       this.$axios
-        .post(this.$location.getPapars, this.$qs.stringify(
-          {
+        .get(this.$location.getPapars, {
+          params: {
             name: this.selPapers.name,
             type: this.selPapers.type,
             papersName: this.selPapers.papersName,
             course_id: this.selPapers.courseId
           }
-        ))
+        })
         .then(response => {
           console.log('信息查询结果---->' + JSON.stringify(response.data.data))
           that.tableData = response.data.data
