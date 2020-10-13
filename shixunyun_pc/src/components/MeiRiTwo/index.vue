@@ -31,9 +31,9 @@
               <el-form-item label="答案" :label-width="formLabelWidth">
                 <ue v-model="insertTechnologyDayExercise.standardAnswer"></ue>
               </el-form-item>
-              <el-form-item label="题目解析" :label-width="formLabelWidth">
+              <!-- <el-form-item label="题目解析" :label-width="formLabelWidth">
                 <ue v-model="insertTechnologyDayExercise.analysis"></ue>
-              </el-form-item>
+              </el-form-item> -->
             </div>
             <div v-else>
               <el-form-item label="正确选项" :label-width="formLabelWidth">
@@ -78,9 +78,9 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-form-item label="题目解析" :label-width="formLabelWidth">
+              <!-- <el-form-item label="题目解析" :label-width="formLabelWidth">
                 <ue v-model="insertTechnologyDayExercise.analysis"></ue>
-              </el-form-item>
+              </el-form-item> -->
             </div>
           </el-form>
           <!-- 取消or保存 -->
@@ -145,11 +145,11 @@
               <div v-html="scope.row.standardAnswer"></div>
         </template>
       </el-table-column>
-      <el-table-column prop="analysis" label="题目解析">
+      <!-- <el-table-column prop="analysis" label="题目解析">
         <template slot-scope="scope">
               <div v-html="scope.row.analysis"></div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button
@@ -192,9 +192,9 @@
               <el-form-item label="答案" :label-width="formLabelWidth">
                 <ue v-model="updateTechnologyDayExercise.standardAnswer"></ue>
               </el-form-item>
-              <el-form-item label="题目解析" :label-width="formLabelWidth">
+              <!-- <el-form-item label="题目解析" :label-width="formLabelWidth">
                 <ue v-model="updateTechnologyDayExercise.analysis"></ue>
-              </el-form-item>
+              </el-form-item> -->
             </div>
             <div v-else>
               <el-form-item label="正确选项" :label-width="formLabelWidth">
@@ -239,9 +239,9 @@
                   </el-col>
                 </el-row>
               </el-form-item>
-              <el-form-item label="题目解析" :label-width="formLabelWidth">
+              <!-- <el-form-item label="题目解析" :label-width="formLabelWidth">
                 <ue v-model="updateTechnologyDayExercise.analysis"></ue>
-              </el-form-item>
+              </el-form-item> -->
             </div>
           </el-form>
           <!-- 取消or保存 -->

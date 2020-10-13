@@ -22,9 +22,9 @@
             <el-form-item label="答案" :label-width="formLabelWidth">
               <ue v-model="insertJobDayExercise.answer"></ue>
             </el-form-item>
-            <el-form-item label="评分标准" :label-width="formLabelWidth">
+            <!-- <el-form-item label="评分标准" :label-width="formLabelWidth">
               <ue v-model="insertJobDayExercise.setStandard"></ue>
-            </el-form-item>
+            </el-form-item> -->
           </el-form>
           <!-- 取消or保存 -->
           <div slot="footer" class="dialog-footer">
@@ -75,16 +75,16 @@
       <el-table-column prop="professional.professionalName" label="专业"></el-table-column>
       <el-table-column prop="course.courseName" label="科目" show-overflow-tooltip></el-table-column>
       <el-table-column prop="title" label="题目"></el-table-column>
-      <el-table-column prop="answer" label="标准答案" show-overflow-tooltip>
-        <template slot-scope="scope">
+      <!-- <el-table-column prop="answer" label="标准答案" show-overflow-tooltip>
+        <template slot-scope="scope" >
               <div v-html="scope.row.answer"></div>
         </template>
-      </el-table-column>
-      <el-table-column prop="setStandard" label="评分标准">
+      </el-table-column> -->
+      <!-- <el-table-column prop="setStandard" label="评分标准">
         <template slot-scope="scope">
               <div v-html="scope.row.setStandard"></div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button
@@ -97,6 +97,11 @@
             type="text"
             size="small"
           >修改</el-button>
+          <el-button
+            @click.native.prevent="showAnswer(scope.row.answer)"
+            type="text"
+            size="small"
+          >查看答案</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -127,9 +132,9 @@
         <el-form-item label="答案" :label-width="formLabelWidth">
           <ue v-model="updateJobDayExercise.answer"></ue>
         </el-form-item>
-        <el-form-item label="评分标准" :label-width="formLabelWidth">
+        <!-- <el-form-item label="评分标准" :label-width="formLabelWidth">
           <ue v-model="updateJobDayExercise.setStandard"></ue>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <!-- 取消or保存 -->
       <div slot="footer" class="dialog-footer">
@@ -408,7 +413,6 @@ export default {
       }
     },
     selProfesionalIn () {
-      alert(1)
       this.selProfesional(this.insertJobDayExercise.professionalId)
     },
     selProfesionalUp () {
@@ -433,6 +437,9 @@ export default {
           console.log('查询请求处理失败')
           console.log(error)
         })
+    },
+    showAnswer (answer) {
+      this.$alert(answer, '', { confirmButtonText: '确定', dangerouslyUseHTMLString: true })
     }
   },
   mounted () {
@@ -487,5 +494,23 @@ export default {
 .your-table .el-table__body-wrapper::-webkit-scrollbar {
   width: 10px;
   height: 10px;
+}
+
+ .el-table td div {
+    box-sizing: border-box;
+    height: 100px;
+    overflow-y: hidden;
+    /* overflow-y: scroll; */
+}
+.el-table td div ::-webkit-scrollbar {
+  display: none;
+}
+</style>
+<style>
+.el-tooltip__popper {
+  max-width: 70%;
+}
+.el-message-box{
+  width: 60%;
 }
 </style>

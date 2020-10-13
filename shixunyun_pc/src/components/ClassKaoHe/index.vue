@@ -241,7 +241,6 @@ export default {
         })
         .then(res => {
           this.papers = res.data.data[0]
-          alert(JSON.stringify(this.papers.papersTitleList))
           if (this.papers !== undefined) {
             for (let a = 0; a < this.papers.papersTitleList.length; a++) {
               this.insertPapers.push({

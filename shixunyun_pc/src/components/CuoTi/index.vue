@@ -215,7 +215,6 @@ export default {
         })
     },
     showRow (id) {
-      alert(id)
       this.selStudent = true
       this.$axios
         .get(this.$location.getErrorTechnologyDayExerciseStudentByExercise, {

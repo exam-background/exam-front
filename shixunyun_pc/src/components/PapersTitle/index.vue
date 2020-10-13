@@ -216,7 +216,6 @@ export default {
         })
     },
     updateRow (data) {
-      alert(data.id)
       if (data.ispublish === 1) {
         this.$confirm('已发布的试卷无法再次发布', '提示', {
           confirmButtonText: '确定',

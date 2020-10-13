@@ -271,7 +271,6 @@ export default {
 
     updateAction(){
       let data = this.$qs.stringify(this.updateForm)
-      alert(JSON.stringify(this.updateForm))
       this.$confirm('确认修改？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
