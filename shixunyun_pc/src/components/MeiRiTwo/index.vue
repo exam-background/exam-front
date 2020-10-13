@@ -140,11 +140,11 @@
       <el-table-column prop="course.courseName" label="科目" show-overflow-tooltip></el-table-column>
       <el-table-column prop="title" label="题目"></el-table-column>
       <el-table-column prop="sysDictionary.dictionaryName" label="题型"></el-table-column>
-      <el-table-column prop="standardAnswer" label="标准答案" show-overflow-tooltip>
+      <!-- <el-table-column prop="standardAnswer" label="标准答案" show-overflow-tooltip>
         <template slot-scope="scope">
               <div v-html="scope.row.standardAnswer"></div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column prop="analysis" label="题目解析">
         <template slot-scope="scope">
               <div v-html="scope.row.analysis"></div>
@@ -162,6 +162,11 @@
             type="text"
             size="small"
           >修改</el-button>
+          <el-button
+            @click.native.prevent="showAnswer(scope.row.answer)"
+            type="text"
+            size="small"
+          >查看答案</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -662,6 +667,9 @@ export default {
           console.log('查询请求处理失败')
           console.log(error)
         })
+    },
+    showAnswer (answer) {
+      this.$alert(answer, '', { confirmButtonText: '确定', dangerouslyUseHTMLString: true })
     }
   },
   mounted () {
