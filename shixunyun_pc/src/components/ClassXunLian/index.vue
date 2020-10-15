@@ -100,7 +100,7 @@
         <el-row style="margin:10px;" v-for="(papersTitle, indexs) in papers.papersTitleList" :key="indexs">
           <h3>{{indexs+1}}.{{papersTitle.title}}({{papersTitle.setScore}}/{{papers.papersUserResultList[indexs].mark}}分)<span style="margin-left:5px;"></span></h3>
           <div style="padding:10px;">
-            <div v-if="papersTitle.type == 1" style="height:52px;">
+            <div v-if="papersTitle.types == 1" style="height:52px;">
                 <textarea style="width:100%;height:100%;resize: none" v-model="insertPapers[indexs].userExercise" disabled></textarea>
             </div>
             <div v-else>

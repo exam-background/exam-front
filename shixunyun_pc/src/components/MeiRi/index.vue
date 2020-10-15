@@ -338,7 +338,7 @@ export default {
     deleteRow (id) {
       console.log('id:' + id)
       const that = this
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm('是否执行删除操作?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -386,7 +386,7 @@ export default {
         })
       } else {
         var that = this
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        this.$confirm('是否执行删除操作?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

@@ -100,13 +100,8 @@
         <el-row style="margin:10px;" v-for="(papersTitle, indexs) in papers.papersTitleList" :key="indexs">
           <h3>{{indexs+1}}.{{papersTitle.title}}({{papersTitle.setScore}}/{{papers.papersUserResultList[indexs].mark}}分)<span style="margin-left:5px;"></span></h3>
           <div style="padding:10px;">
-            <div v-if="papersTitle.type == 1" style="height:52px;">
+            <div style="height:52px;">
                 <textarea style="width:100%;height:100%;resize: none" v-model="insertPapers[indexs].userExercise" disabled></textarea>
-            </div>
-            <div v-else>
-                <el-radio-group style="margin:5px 0px;padding:5px;" v-model="insertPapers[indexs].userExercise" direction="horizontal" v-for="(papersExercises, papersExercisesIndex) in papersTitle.papersExercises" :key="papersExercisesIndex">
-                    <el-radio disabled :label="papersExercises.content" style="height:40px;"><font size=2>{{papersExercises.orderNum}}：{{papersExercises.content}}</font></el-radio>
-                </el-radio-group>
             </div>
             <div style="margin-top:20px;"><h4>正确答案：</h4></div>
             <div style="width:100%;height:100px;overflow:auto;border:1px solid #f0f0f0;">

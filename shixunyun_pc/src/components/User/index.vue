@@ -8,7 +8,7 @@
         <el-dialog title="新增" :visible.sync="insert" class="insert">
           <el-form :model="form">
           <el-form-item label="登录名称" :label-width="formLabelWidth">
-            <el-input v-model="insertDate.login_name" autocomplete="off" style="width:217px"></el-input>
+            <el-input v-model="insertDate.loginName" autocomplete="off" style="width:217px"></el-input>
           </el-form-item>
           <el-form-item label="登录密码" :label-width="formLabelWidth">
             <el-input v-model="insertDate.login_password" autocomplete="off" style="width:217px"></el-input>
@@ -27,12 +27,12 @@
             <el-input v-model="insertDate.real_name" autocomplete="off" style="width:217px"></el-input>
           </el-form-item>
           <el-form-item label="手机号码" :label-width="formLabelWidth">
-            <el-input v-model="insertDate.mobile_phone" autocomplete="off" style="width:217px"></el-input>
+            <el-input v-model="insertDate.mobilePhone" autocomplete="off" style="width:217px"></el-input>
           </el-form-item>
          <!-- <el-form-item label="创建日期" :label-width="formLabelWidth">
             <div class="block">
               <el-date-picker
-                v-model="insertDate.create_time"
+                v-model="insertDate.createTime"
                 type="datetime"
                 placeholder="选择日期时间">
               </el-date-picker>
@@ -88,7 +88,7 @@
       label="用户编号">
     </el-table-column>
     <el-table-column
-      prop="real_name"
+      prop="loginName"
       label="用户名称">
     </el-table-column>
     <el-table-column
@@ -100,11 +100,11 @@
       label="职位">
     </el-table-column>
     <el-table-column
-      prop="mobile_phone"
+      prop="mobilePhone"
       label="手机号码">
     </el-table-column>
     <el-table-column
-      prop="create_time"
+      prop="createTime"
       label="创建时间">
     </el-table-column>
     <el-table-column
@@ -131,7 +131,7 @@
   <el-dialog title="修改" :visible.sync="update" class="insert">
     <el-form :model="updataData">
       <el-form-item  label="登录名称" :label-width="formLabelWidth">
-        <el-input v-model="updataData.login_name" autocomplete="off" style="width:217px" placeholder="请输入登录名称"></el-input>
+        <el-input v-model="updataData.loginName" autocomplete="off" style="width:217px" placeholder="请输入登录名称"></el-input>
       </el-form-item>
       <el-form-item label="登录密码" :label-width="formLabelWidth">
         <el-input v-model="updataData.login_password" autocomplete="off" style="width:217px" placeholder="请输入登录密码"></el-input>
@@ -151,12 +151,12 @@
         <el-input v-model="updataData.real_name" autocomplete="off" style="width:217px" placeholder="请输入真实名称"></el-input>
       </el-form-item>
       <el-form-item label="手机号码" :label-width="formLabelWidth">
-        <el-input v-model="updataData.mobile_phone" autocomplete="off" style="width:217px" placeholder="请输入手机号码"></el-input>
+        <el-input v-model="updataData.mobilePhone" autocomplete="off" style="width:217px" placeholder="请输入手机号码"></el-input>
       </el-form-item>
      <!-- <el-form-item label="创建日期" :label-width="formLabelWidth">
             <div class="block">
               <el-date-picker
-                v-model="updataData.create_time"
+                v-model="updataData.createTime"
                 type="datetime"
                 placeholder="选择日期时间">
               </el-date-picker>
@@ -200,22 +200,22 @@ created() {
         position: ''
       },
       insertDate: {
-        login_name: '',
+        loginName: '',
         login_password: '',
         department: '',
         position: '',
-        create_time: '',
-        mobile_phone: '',
+        createTime: '',
+        mobilePhone: '',
         real_name: ''
       },
       updataData: {
         id: '',
-        login_name: '',
+        loginName: '',
         login_password: '',
         department: '',
         position: '',
-        create_time: '',
-        mobile_phone: '',
+        createTime: '',
+        mobilePhone: '',
         real_name: ''
       },
       update: false,
@@ -317,7 +317,7 @@ created() {
     deleteRow (id) {
       console.log('id:' + id)
       const that = this
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm('是否执行删除操作?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -359,13 +359,13 @@ created() {
     insertFroms () {
       this.insert = false
       const data = this.$qs.stringify({
-        login_name: this.insertDate.login_name,
+        loginName: this.insertDate.loginName,
         login_password: this.insertDate.login_password,
         real_name: this.insertDate.real_name,
         department: this.insertDate.department,
         position: this.insertDate.position,
-        mobile_phone: this.insertDate.mobile_phone,
-        create_time: this.insertDate.create_time
+        mobilePhone: this.insertDate.mobilePhone,
+        createTime: this.insertDate.createTime
       })
       console.log('data:' + data)
       this.$axios
@@ -388,12 +388,12 @@ created() {
       console.log(data)
       this.update = true
       this.updataData.id = data.id
-      this.updataData.login_name = data.login_name
+      this.updataData.loginName = data.loginName
       this.updataData.login_password = data.login_password
       this.updataData.department = data.department
       this.updataData.position = data.position
-      this.updataData.create_time = data.create_time
-      this.updataData.mobile_phone = data.mobile_phone
+      this.updataData.createTime = data.createTime
+      this.updataData.mobilePhone = data.mobilePhone
       this.updataData.real_name = data.real_name
     },
     updateDataFun () {
@@ -401,13 +401,13 @@ created() {
       const that = this
       const data = this.$qs.stringify({
         id: this.updataData.id,
-        login_name: this.updataData.login_name,
+        loginName: this.updataData.loginName,
         login_password: this.updataData.login_password,
         real_name: this.updataData.real_name,
         department: this.updataData.department,
         position: this.updataData.position,
-        mobile_phone: this.updataData.mobile_phone,
-        create_time: this.updataData.create_time
+        mobilePhone: this.updataData.mobilePhone,
+        createTime: this.updataData.createTime
       })
       console.log(data)
       this.$axios
@@ -435,7 +435,7 @@ created() {
         })
       } else {
         var that = this
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        this.$confirm('是否执行删除操作?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
