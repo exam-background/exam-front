@@ -1,6 +1,6 @@
 //考核
 
-var examsystemPath = 'http://localhost:8081/examsystem'
+var examsystemPath = 'http://139.9.169.87:8081/examsystem'
 
 const location ={
   //更新角色的菜单
